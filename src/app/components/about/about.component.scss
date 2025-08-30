@@ -1,201 +1,224 @@
-.about-section {
-  padding: 80px 0;
-  background: #ffffff;
-  
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-  }
-  
-  .section-header {
-    text-align: center;
-    margin-bottom: 60px;
-    
-    .section-label {
-      font-family: 'Poppins', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: #64748b;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      display: block;
-      margin-bottom: 20px;
-    }
-    
-    .section-title {
-      font-family: 'Poppins', sans-serif;
-      font-size: 3rem;
-      font-weight: 700;
-      color: #1e293b;
-      margin: 0;
-      position: relative;
-      display: inline-block;
+/* About component styles matching https://www.sunnypatel.net/ exactly */
 
-      &::after {
-        content: '';
-        position: absolute;
-        bottom: -10px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 60px;
-        height: 4px;
-        background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-        border-radius: 2px;
-      }
-    }
-  }
-  
-  .about-content {
-    display: grid;
-    grid-template-columns: 280px 1fr;
-    gap: 60px;
-    align-items: start;
-    max-width: 1000px;
-    margin: 0 auto;
-  }
-  
-  .about-image {
-    text-align: center;
-    
-    .profile-img {
-      width: 280px;
-      height: 280px;
-      border-radius: 20px;
-      object-fit: cover;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-      border: 4px solid #ffffff;
-      transition: transform 0.3s ease;
-
-      &:hover {
-        transform: translateY(-5px);
-      }
-    }
-  }
-  
-  .about-text {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-  }
-  
-  .about-links {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 10px;
-    
-    .about-link {
-      font-family: 'Poppins', sans-serif;
-      padding: 8px 16px;
-      background: #f8fafc;
-      color: #475569;
-      text-decoration: none;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      border: 1px solid #e2e8f0;
-      transition: all 0.2s ease;
-
-      &:hover {
-        background: #3b82f6;
-        color: #ffffff;
-        border-color: #3b82f6;
-        transform: translateY(-2px);
-      }
-    }
-  }
-  
-  .about-description {
-    .desc-item {
-      font-family: 'Poppins', sans-serif;
-      font-size: 1rem;
-      line-height: 1.7;
-      color: #475569;
-      margin: 0 0 20px 0;
-      
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
-  }
-  
-  .education-preview {
-    margin-top: 20px;
-    padding-top: 30px;
-    border-top: 1px solid #e2e8f0;
-    
-    .education-label {
-      font-family: 'Poppins', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: #64748b;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-  }
+.about-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0px 0;
+  padding: 64px;
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-// Mobile responsiveness
+/* Introduction section */
+.introduction-section p {
+  font-size: 18px;
+  font-weight: 500;
+  --tw-text-opacity: 1;
+  color: rgb(170 166 195 / var(--tw-text-opacity));
+  text-align: center;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  margin-top: 0;
+}
+
+/* Overview title section with gradient */
+.overview-title-section h2 {
+  font-size: 3.75rem;
+  font-weight: 900;
+  background: linear-gradient(90deg, rgb(145, 94, 255), rgb(0, 191, 255));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* Main content container styling */
+.main-content-container {
+  display: flex;
+  flex-direction: row;
+  gap: 3rem;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 1000px;
+  margin-top: 2.5rem;
+}
+
+/* Profile section (image + buttons) */
+.profile-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* Image styling - matching reference website with gradient from header */
+.image-container img {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(90deg, rgb(145, 94, 255), rgb(0, 191, 255));
+  padding: 4px;
+  box-shadow: 0 0 30px rgba(145, 94, 255, 0.5);
+  border: none;
+}
+
+/* Social buttons styling */
+.social-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  width: 200px;
+}
+
+.social-buttons .social-link {
+  background: transparent;
+  color: #915eff;
+  border: 1px solid transparent;
+  background: linear-gradient(#050816, #050816) padding-box, 
+              linear-gradient(90deg, rgb(145, 94, 255), rgb(0, 191, 255)) border-box;
+  border: 1px solid transparent;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+}
+
+.social-buttons .social-link:hover {
+  background: linear-gradient(90deg, rgb(145, 94, 255), rgb(0, 191, 255));
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(145, 94, 255, 0.4);
+}
+
+/* Content section */
+.content-section {
+  flex: 1;
+  color: #aaa6c3;
+}
+
+.content-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+.content-list li {
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: flex-start;
+  font-size: 18px;
+  line-height: 1.7;
+  color: #aaa6c3;
+}
+
+.content-list li::before {
+  content: attr(data-emoji);
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+/* Footer section - "WHAT I HAVE STUDIED SO FAR" */
+.footer-section {
+  margin-top: 4rem;
+  text-align: center;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(170, 166, 195, 0.3);
+  width: 100%;
+}
+
+.footer-section p {
+  font-size: 14px;
+  font-weight: 600;
+  color: #aaa6c3;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Mobile responsive */
 @media (max-width: 768px) {
-  .about-section {
-    padding: 60px 0;
-    
-    .container {
-      padding: 0 15px;
-    }
-    
-    .section-header {
-      margin-bottom: 40px;
-      
-      .section-title {
-        font-size: 2.2rem;
-      }
-    }
-    
-    .about-content {
-      grid-template-columns: 1fr;
-      gap: 40px;
-      text-align: center;
-    }
-    
-    .about-image {
-      .profile-img {
-        width: 220px;
-        height: 220px;
-      }
-    }
-    
-    .about-text {
-      text-align: left;
-    }
-    
-    .about-links {
-      justify-content: center;
-      flex-wrap: wrap;
-    }
+  .about-container {
+    margin: 50px 0;
+    padding: 40px 20px;
+  }
+  
+  .overview-title-section h2 {
+    font-size: 2.5rem;
+  }
+  
+  .main-content-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+  }
+  
+  .image-container img {
+    width: 180px;
+    height: 180px;
+  }
+  
+  .social-buttons {
+    width: 180px;
+  }
+  
+  .content-section {
+    text-align: center;
+  }
+  
+  .content-list li {
+    text-align: left;
+    font-size: 16px;
+    align-items: flex-start;
+  }
+  
+  .content-list li::before {
+    font-size: 16px;
   }
 }
 
 @media (max-width: 480px) {
-  .about-section {
-    .section-header {
-      .section-title {
-        font-size: 1.8rem;
-      }
-    }
-    
-    .about-image {
-      .profile-img {
-        width: 180px;
-        height: 180px;
-      }
-    }
-    
-    .about-links {
-      .about-link {
-        font-size: 0.8rem;
-        padding: 6px 12px;
-      }
-    }
+  .overview-title-section h2 {
+    font-size: 2rem;
+  }
+  
+  .content-list li {
+    font-size: 14px;
+  }
+  
+  .content-list li::before {
+    font-size: 14px;
+  }
+  
+  .social-buttons .social-link {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  
+  .image-container img {
+    width: 160px;
+    height: 160px;
+  }
+  
+  .social-buttons {
+    width: 160px;
   }
 }
