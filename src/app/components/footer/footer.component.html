@@ -1,0 +1,101 @@
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <h3 class="brand-name">John Doe</h3>
+          <p class="brand-tagline">Building the future, one line of code at a time</p>
+        </div>
+
+        <div class="footer-links">
+          <div class="link-group">
+            <h4>Navigation</h4>
+            <ul>
+              <li><a href="#home">Home</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#skills">Skills</a></li>
+              <li><a href="#experience">Experience</a></li>
+              <li><a href="#projects">Projects</a></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
+          </div>
+
+          <div class="link-group">
+            <h4>Connect</h4>
+            <ul>
+              <li><a href="https://github.com" target="_blank">GitHub</a></li>
+              <li><a href="https://linkedin.com" target="_blank">LinkedIn</a></li>
+              <li><a href="https://twitter.com" target="_blank">Twitter</a></li>
+              <li><a href="mailto:john.doe@example.com">Email</a></li>
+            </ul>
+          </div>
+
+          <div class="link-group">
+            <h4>Resources</h4>
+            <ul>
+              <li><a href="/assets/resume.pdf" target="_blank">Resume</a></li>
+              <li><a href="#projects">Portfolio</a></li>
+              <li><a href="https://blog.johndoe.dev" target="_blank">Blog</a></li>
+              <li><a href="#contact">Hire Me</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-contact">
+          <h4>Get In Touch</h4>
+          <div class="contact-info">
+            <div class="contact-item">
+              <mat-icon>email</mat-icon>
+              <a href="mailto:john.doe&#64;example.com">john.doe&#64;example.com</a>
+            </div>
+            <div class="contact-item">
+              <mat-icon>location_on</mat-icon>
+              <span>San Francisco, CA</span>
+            </div>
+          </div>
+          
+          <div class="social-links">
+            <a href="https://github.com" target="_blank" class="social-link" aria-label="GitHub">
+              <mat-icon>code</mat-icon>
+            </a>
+            <a href="https://linkedin.com" target="_blank" class="social-link" aria-label="LinkedIn">
+              <mat-icon>business</mat-icon>
+            </a>
+            <a href="https://twitter.com" target="_blank" class="social-link" aria-label="Twitter">
+              <mat-icon>alternate_email</mat-icon>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="footer-divider"></div>
+        <div class="footer-info">
+          <div class="copyright">
+            <p>&copy; {{ currentYear }} John Doe. All rights reserved.</p>
+          </div>
+          
+          <div class="footer-meta">
+            <span>Built with Angular & ❤️</span>
+            <span class="divider">•</span>
+            <span>Designed for impact</span>
+            <span class="divider">•</span>
+            <button 
+              mat-button 
+              class="theme-toggle-footer"
+              (click)="toggleTheme()"
+              aria-label="Toggle theme"
+            >
+              <mat-icon>{{ isDarkTheme ? 'light_mode' : 'dark_mode' }}</mat-icon>
+              <span>{{ isDarkTheme ? 'Light' : 'Dark' }} Mode</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="back-to-top" [class.visible]="showBackToTop" (click)="scrollToTop()">
+      <mat-icon>keyboard_arrow_up</mat-icon>
+    </div>
+  </div>
+</footer>

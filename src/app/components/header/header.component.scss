@@ -1,0 +1,273 @@
+// Header - Exact replica of https://www.sunnypatel.net/
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  z-index: 1000;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding-left: 4rem;
+  padding-right: 4rem;
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+  
+  &.scrolled {
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  }
+
+  // Mobile responsive
+  @media (max-width: 768px) {
+    padding: 1rem 2rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.75rem 1rem;
+  }
+}
+
+.nav-container {
+  margin: 0 auto;
+  max-width: 80rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  @media (max-width: 768px) {
+    padding: 0;
+    max-width: 100%;
+  }
+}
+
+.nav-logo {
+  font-weight: 700;
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  height: 39px;
+  font-family: "Dancing Script", cursive;
+  font-size: 26px;
+  background: linear-gradient(90deg, rgb(145, 94, 255), rgb(0, 191, 255)) text;
+  -webkit-text-fill-color: transparent;
+  scroll-behavior: smooth;
+  color-scheme: dark;
+  margin: 0;
+  padding: 0;
+  border-color: #e5e7eb;
+
+  // Mobile logo sizing
+  @media (max-width: 768px) {
+    font-size: 22px;
+    height: 32px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 20px;
+    height: 28px;
+  }
+
+  &:hover {
+    color: #3182ce;
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+
+  // Style the span inside for mobile
+  .block {
+    display: block;
+    
+    @media (max-width: 768px) {
+      font-size: 22px !important;
+    }
+
+    @media (max-width: 480px) {
+      font-size: 20px !important;
+    }
+  }
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 2.5rem;
+
+  li {
+    display: flex;
+    align-items: center;
+  }
+
+  @media (max-width: 768px) {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    flex-direction: column;
+    padding: 2rem 0;
+    gap: 0;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    max-height: calc(100vh - 70px);
+    overflow-y: auto;
+
+    &.active {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    li {
+      width: 100%;
+      text-align: center;
+      padding: 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    top: 60px;
+    max-height: calc(100vh - 60px);
+  }
+}
+
+.nav-link {
+  color: #AAA6C3;
+  font-size: 1.125rem;
+  font-weight: 500;
+  color-scheme: dark;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  position: relative;  
+  font-family: 'Poppins', sans-serif;
+
+  &:hover {
+    color: #2d3748;
+  }
+
+  &.active {
+    color: #3182ce;
+    font-weight: 600;
+  }
+
+  // Underline effect - exactly like the reference
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #3182ce, #4299e1);
+    border-radius: 1px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateX(-50%);
+  }
+
+  &:hover::after {
+    width: 100%;
+  }
+
+  &.active::after {
+    width: 100%;
+    background: linear-gradient(90deg, #3182ce, #4299e1);
+  }
+
+  @media (max-width: 768px) {
+    font-size: 1.1rem;
+    padding: 1.25rem 2rem;
+    width: 100%;
+    display: block;
+    color: #4a5568;
+    font-weight: 500;
+    
+    &:hover {
+      background: rgba(66, 153, 225, 0.05);
+      color: #3182ce;
+    }
+
+    &.active {
+      background: rgba(66, 153, 225, 0.1);
+      color: #3182ce;
+      font-weight: 600;
+    }
+    
+    &::after {
+      display: none;
+    }
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1rem;
+    padding: 1rem 1.5rem;
+  }
+}
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  padding: 0.5rem;
+  gap: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  @media (max-width: 768px) {
+    display: flex;
+  }
+}
+
+.bar {
+  width: 22px;
+  height: 2px;
+  background-color: #2d3748;
+  border-radius: 2px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  @media (max-width: 480px) {
+    width: 20px;
+    height: 2px;
+  }
+}
+
+.nav-toggle.active {
+  .bar:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+  }
+
+  .bar:nth-child(2) {
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  .bar:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+}
+
+// Prevent body scroll when mobile menu is open
+body.menu-open {
+  @media (max-width: 768px) {
+    overflow: hidden;
+  }
+}

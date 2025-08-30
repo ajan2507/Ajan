@@ -1,0 +1,26 @@
+<nav class="nav" [class.scrolled]="isScrolled">
+  <div class="nav-container">
+    <!-- Logo/Name -->
+    <a href="#" class="nav-logo" role="generic" (click)="scrollToTop($event)">
+      <span class="block" style="font-family: 'Dancing Script', cursive; font-size: 26px; background: linear-gradient(90deg, rgb(145, 94, 255), rgb(0, 191, 255)) text; -webkit-text-fill-color: transparent;">&lt;/Karthick Ajan&gt;</span>
+    </a>
+    
+    <!-- Navigation Menu -->
+    <ul class="nav-menu" [class.active]="isMenuOpen">
+      <li><a href="#about" class="nav-link" [class.active]="activeSection === 'about'" (click)="scrollToSection($event, 'about')">About</a></li>
+      <li><a href="#education" class="nav-link" [class.active]="activeSection === 'education'" (click)="scrollToSection($event, 'education')">Education</a></li>
+      <li><a href="#work" class="nav-link" [class.active]="activeSection === 'work'" (click)="scrollToSection($event, 'work')">Work</a></li>
+      <li><a href="#certifications" class="nav-link" [class.active]="activeSection === 'certifications'" (click)="scrollToSection($event, 'certifications')">Certifications</a></li>
+      <li><a href="#skills" class="nav-link" [class.active]="activeSection === 'skills'" (click)="scrollToSection($event, 'skills')">Skills</a></li>
+      <li><a href="#projects" class="nav-link" [class.active]="activeSection === 'projects'" (click)="scrollToSection($event, 'projects')">Projects</a></li>
+      <li><a href="#contact" class="nav-link" [class.active]="activeSection === 'contact'" (click)="scrollToSection($event, 'contact')">Contact</a></li>
+    </ul>
+    
+    <!-- Mobile Hamburger -->
+    <div class="nav-toggle" [class.active]="isMenuOpen" (click)="toggleMobileMenu()">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,100 @@
+.hero-section {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8faff 0%, #ffffff 100%);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  
+  .hero-container {
+    max-width: 1200px;
+    width: 100%;
+    text-align: center;
+    
+    .hero-content {
+      .main-title {
+        font-size: 4rem;
+        font-weight: 700;
+        color: #2d3748;
+        margin-bottom: 1.5rem;
+        line-height: 1.2;
+        font-family: 'Poppins', sans-serif;
+        
+        .name-highlight {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+        
+        .wave-emoji {
+          font-size: 4rem;
+          display: inline-block;
+          animation: wave 2s ease-in-out infinite;
+          transform-origin: 70% 70%;
+          margin-left: 0.5rem;
+        }
+        
+        @keyframes wave {
+          0%, 100% { transform: rotate(0deg); }
+          25% { transform: rotate(15deg); }
+          75% { transform: rotate(-15deg); }
+        }
+        
+        @media (max-width: 768px) {
+          font-size: 2.5rem;
+          
+          .wave-emoji {
+            font-size: 2.5rem;
+          }
+        }
+      }
+      
+      .typewriter-container {
+        font-size: 2rem;
+        color: #4a5568;
+        margin-bottom: 2rem;
+        font-family: 'Poppins', sans-serif;
+        
+        .static-text {
+          color: #2d3748;
+        }
+        
+        .typewriter-text {
+          color: #667eea;
+          font-weight: 600;
+        }
+        
+        .cursor {
+          color: #667eea;
+          animation: blink 1s infinite;
+          font-weight: 400;
+        }
+        
+        @keyframes blink {
+          0%, 50% { opacity: 1; }
+          51%, 100% { opacity: 0; }
+        }
+        
+        @media (max-width: 768px) {
+          font-size: 1.5rem;
+        }
+      }
+      
+      .welcome-text {
+        font-size: 1.2rem;
+        color: #718096;
+        max-width: 600px;
+        margin: 0 auto;
+        line-height: 1.6;
+        font-family: 'Poppins', sans-serif;
+        
+        @media (max-width: 768px) {
+          font-size: 1rem;
+          padding: 0 1rem;
+        }
+      }
+    }
+  }
+}
