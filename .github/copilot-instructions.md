@@ -5,6 +5,8 @@
 ## Project Overview
 This is a professional Angular portfolio application that replicates the EXACT design and functionality of https://www.sunnypatel.net/. The goal is to create an identical user experience with the same layout, styling, interactions, and features.
 
+**Target Repository**: https://github.com/sunnypatell/react-threejs-portfolio  
+**Reference Website**: https://www.sunnypatel.net/  
 **Development Note: Always use port 4202 for testing (`ng serve --port 4202`)**
 
 ## Design Reference - Sunny Patel's Portfolio

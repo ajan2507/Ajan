@@ -56,6 +56,15 @@ export interface PersonalInfo {
   };
 }
 
+export interface Education {
+  title: string;
+  company_name: string;
+  icon: string;
+  iconBg: string;
+  date: string;
+  points: string[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -199,6 +208,31 @@ export class PortfolioDataService {
     }
   ];
 
+  private education: Education[] = [
+    {
+      title: "Electrical & Electronics Engineering B.Tech",
+      company_name: "Vellore Institute of Technology, Vellore",
+      icon: "assets/vit-logo.png",
+      iconBg: "#fff",
+      date: "2020 - 2024",
+      points: [        
+        "Published Research Paper on 'Comprehensive Study of Weather Prediction Using IoT and Machine Learning' in IEEE Xplore",
+        "CGPA: 8.28"
+      ],
+    },
+    {
+      title: "High School",
+      company_name: "MIRS, Chennai",
+      icon: "assets/mirs-logo.jpeg",
+      iconBg: "#fff",
+      date: "2018 - 2020",
+      points: [        
+        "Computer Science",
+        "12th Grade: 81%"
+      ],
+    },
+  ];
+
   getPersonalInfo(): Observable<PersonalInfo> {
     return of(this.personalInfo);
   }
@@ -223,7 +257,7 @@ export class PortfolioDataService {
     return of(this.projects.filter(project => project.featured));
   }
 
-  getProjectsByCategory(category: string): Observable<Project[]> {
-    return of(this.projects.filter(project => project.category === category));
+  getEducation(): Observable<Education[]> {
+    return of(this.education);
   }
 }

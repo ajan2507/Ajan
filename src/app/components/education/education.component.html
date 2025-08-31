@@ -1,41 +1,39 @@
-<section id="education" class="education-section">
-  <div class="container">
-    <div class="section-header">
-      <h2 class="section-title">Education.</h2>
-    </div>
-    
-    <div class="education-content">
-      <div class="education-timeline">
-        <div class="education-item" *ngFor="let edu of educationData">
-          <div class="education-card">
-            <div class="education-header">
-              <h3 class="education-degree">{{ edu.degree }}</h3>
-              <div class="education-period">{{ edu.period }}</div>
-            </div>
-            
-            <div class="education-institution">
-              <h4>{{ edu.institution }}</h4>
-            </div>
-            
-            <div class="education-description">
-              <p>{{ edu.description }}</p>
-            </div>
-            
-            <div class="education-courses">
-              <h5>Key Coursework:</h5>
-              <div class="courses-grid">
-                <span class="course-item" *ngFor="let course of edu.courses">
-                  {{ course }}
-                </span>
-              </div>
-            </div>
+<section id="education" class="education-section" #educationSection>
+  <!-- WHAT I HAVE STUDIED SO FAR label -->
+  <div class="introduction-section">
+    <p>WHAT I HAVE STUDIED SO FAR</p>
+  </div>
+  
+  <!-- Education title -->
+  <div class="title-section">
+    <h2>Education.</h2>
+  </div>
+  
+  <!-- Education Timeline -->
+  <div class="education-timeline-wrapper">
+    <div class="vertical-timeline">
+      
+      <!-- Dynamic Education Items -->
+      <div class="vertical-timeline-element" *ngFor="let edu of education; trackBy: trackByEducation">
+        <span class="vertical-timeline-element-icon bounce-in" [style.background]="edu.iconBg">
+          <div class="education-icon-wrapper">
+            <img [src]="edu.icon" [alt]="edu.company_name" class="education-icon">
           </div>
+        </span>
+        <div class="vertical-timeline-element-content bounce-in">
+          <div>
+            <h3 class="education-title">{{ edu.title }}</h3>
+            <p class="education-institution">{{ edu.company_name }}</p>
+          </div>
+          <ul class="education-details">
+            <li *ngFor="let point of edu.points">
+              {{ point }}
+            </li>
+          </ul>
         </div>
+        <span class="vertical-timeline-element-date">{{ edu.date }}</span>
       </div>
-    </div>
-    
-    <div class="section-divider">
-      <span class="section-label">MY PROFESSIONAL JOURNEY</span>
+
     </div>
   </div>
 </section>
