@@ -1,11 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { EarthCanvasComponent } from '../earth-canvas/earth-canvas.component';
 
 interface SubmitStatus {
   type: 'success' | 'error';
@@ -18,11 +14,7 @@ interface SubmitStatus {
   imports: [
     CommonModule, 
     ReactiveFormsModule,
-    MatButtonModule, 
-    MatFormFieldModule, 
-    MatInputModule, 
-    MatIconModule,
-    MatProgressSpinnerModule
+    EarthCanvasComponent
   ],
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.scss'
@@ -38,7 +30,6 @@ export class ContactComponent implements OnInit {
     this.contactForm = this.fb.group({
       name: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      subject: ['', [Validators.required]],
       message: ['', [Validators.required, Validators.minLength(10)]]
     });
   }

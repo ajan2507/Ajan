@@ -1,194 +1,73 @@
-<section id="projects" class="projects">
-  <div class="container">
+<section id="projects" class="projects-section">
+  <div class="projects-container">
+    <!-- Section Header -->
     <div class="section-header">
-      <h2 class="section-title">Featured Projects</h2>
-      <p class="section-subtitle">Some of the projects I've worked on recently</p>
+      <h3 class="section-subtitle">INNOVATIVE CREATIONS</h3>
+      <h2 class="section-title">Projects.</h2>
     </div>
 
-    <div class="projects-content">
-      <div class="project-filters">
-        <button 
-          mat-button 
-          [class.active]="activeFilter === 'all'"
-          (click)="setActiveFilter('all')"
-          class="filter-btn"
-        >
-          All Projects
-        </button>
-        <button 
-          mat-button 
-          [class.active]="activeFilter === 'web'"
-          (click)="setActiveFilter('web')"
-          class="filter-btn"
-        >
-          Web Apps
-        </button>
-        <button 
-          mat-button 
-          [class.active]="activeFilter === 'fullstack'"
-          (click)="setActiveFilter('fullstack')"
-          class="filter-btn"
-        >
-          Full Stack
-        </button>
-        <button 
-          mat-button 
-          [class.active]="activeFilter === 'mobile'"
-          (click)="setActiveFilter('mobile')"
-          class="filter-btn"
-        >
-          Mobile
-        </button>
-      </div>
-
-      <div class="projects-grid">
-        <div 
-          class="project-card" 
-          *ngFor="let project of filteredProjects; trackBy: trackByProject"
-          [@fadeInUp]
-        >
-          <div class="project-image">
-            <img 
-              [src]="project.imageUrl || 'assets/images/project-placeholder.jpg'" 
-              [alt]="project.title"
-              class="project-thumbnail"
-            />
-            <div class="project-overlay">
-              <div class="project-actions">
-                <button 
-                  mat-fab 
-                  *ngIf="project.demoUrl"
-                  (click)="openDemo(project.demoUrl)"
-                  class="action-btn demo-btn"
-                  matTooltip="View Live Demo"
-                >
-                  <mat-icon>launch</mat-icon>
-                </button>
-                <button 
-                  mat-fab 
-                  *ngIf="project.githubUrl"
-                  (click)="openGithub(project.githubUrl)"
-                  class="action-btn github-btn"
-                  matTooltip="View Source Code"
-                >
-                  <mat-icon>code</mat-icon>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div class="project-content">
-            <div class="project-header">
-              <h3 class="project-title">{{ project.title }}</h3>
-              <div class="project-badges">
-                <span class="featured-badge" *ngIf="project.featured">Featured</span>
-                <span class="category-badge" [class]="project.category">
-                  {{ project.category | titlecase }}
-                </span>
-              </div>
-            </div>
-
-            <p class="project-description">{{ project.description }}</p>
-
-            <div class="project-tech">
-              <div class="tech-stack">
-                <span 
-                  class="tech-chip" 
-                  *ngFor="let tech of project.technologies"
-                >
-                  {{ tech }}
-                </span>
-              </div>
-            </div>
-
-            <div class="project-footer">
-              <div class="project-meta">
-                <span class="project-date">
-                  <mat-icon>calendar_today</mat-icon>
-                  {{ formatProjectDate(project.startDate, project.endDate) }}
-                </span>
-              </div>
-              <button 
-                mat-button 
-                class="details-btn"
-                (click)="openProjectDetails(project)"
-              >
-                Learn More
-                <mat-icon>arrow_forward</mat-icon>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="projects-cta" *ngIf="hasMoreProjects">
-        <p>Interested in seeing more of my work?</p>
-        <button mat-raised-button color="primary" (click)="viewAllProjects()">
-          <mat-icon>folder_open</mat-icon>
-          View All Projects
-        </button>
-      </div>
-    </div>
-
-    <!-- Project Details Modal -->
-    <div class="project-modal" *ngIf="selectedProject" [@modalSlide]>
-      <div class="modal-backdrop" (click)="closeProjectDetails()"></div>
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2>{{ selectedProject.title }}</h2>
-          <button mat-icon-button (click)="closeProjectDetails()">
-            <mat-icon>close</mat-icon>
-          </button>
-        </div>
-        
-        <div class="modal-body">
-          <div class="project-image-large">
-            <img 
-              [src]="selectedProject.imageUrl || 'assets/images/project-placeholder.jpg'" 
-              [alt]="selectedProject.title"
-            />
-          </div>
+    <!-- Projects Grid -->
+    <div class="projects-grid">
+      <div 
+        #projectCard
+        class="project-card"
+        *ngFor="let project of projects; let i = index"
+        [style.animation-delay.ms]="i * 150"
+      >
+        <!-- Project Image -->
+        <div class="project-image-container">
+          <img 
+            [src]="project.image" 
+            [alt]="project.name"
+            class="project-image"
+            (error)="onImageError($event)"
+          />
           
-          <div class="project-details">
-            <p class="long-description">
-              {{ selectedProject.longDescription || selectedProject.description }}
-            </p>
-            
-            <div class="tech-details">
-              <h4>Technologies Used:</h4>
-              <div class="tech-list">
-                <span 
-                  class="tech-item" 
-                  *ngFor="let tech of selectedProject.technologies"
-                >
-                  {{ tech }}
-                </span>
-              </div>
-            </div>
-            
-            <div class="project-links">
-              <button 
-                mat-raised-button 
-                color="primary"
-                *ngIf="selectedProject.demoUrl"
-                (click)="openDemo(selectedProject.demoUrl)"
-              >
-                <mat-icon>launch</mat-icon>
-                Live Demo
-              </button>
-              
-              <button 
-                mat-stroked-button
-                *ngIf="selectedProject.githubUrl"
-                (click)="openGithub(selectedProject.githubUrl)"
-              >
-                <mat-icon>code</mat-icon>
-                Source Code
-              </button>
+          <!-- Overlay with action buttons -->
+          <div class="project-overlay">
+            <div 
+              class="source-code-btn"
+              (click)="openSourceCode(project.source_code_link)"
+              title="View Source Code"
+            >
+              <img 
+                src="/assets/github.png" 
+                alt="source code"
+                class="github-icon"
+              />
             </div>
           </div>
+        </div>
+
+        <!-- Project Content -->
+        <div class="project-content">
+          <h3 class="project-name">{{ project.name }}</h3>
+          <p class="project-description">{{ project.description }}</p>
+          
+          <!-- Tech Tags -->
+          <div class="project-tags">
+            <p 
+              *ngFor="let tag of project.tags"
+              [class]="tag.color"
+              class="tech-tag"
+            >
+              #{{ tag.name }}
+            </p>
+          </div>
+
+          <!-- Live Project Button -->
+          <a 
+            *ngIf="project.live_project_link"
+            [href]="project.live_project_link"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="live-project-btn"
+          >
+            Live Project
+          </a>
         </div>
       </div>
     </div>
   </div>
 </section>
+

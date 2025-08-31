@@ -1,13 +1,14 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, Inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
 
-interface WorkExperience {
-  position: string;
-  company: string;
-  companyLogo: string;
-  period: string;
-  description: string;
-  responsibilities: string[];
+export interface WorkExperience {
+  title: string;
+  company_name: string;
+  icon: string;
+  iconBg: string;
+  date: string;
+  points: string[];
 }
 
 @Component({
@@ -15,51 +16,139 @@ interface WorkExperience {
   standalone: true,
   imports: [CommonModule],
   templateUrl: './experience.component.html',
-  styleUrls: ['./experience.component.scss']
+  styleUrls: ['./experience.component.scss'],
+  animations: [
+    trigger('fadeIn', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(20px)' }),
+        animate('0.6s ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
+      ])
+    ]),
+    trigger('slideIn', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateX(20px)' }),
+        animate('0.3s ease-out', style({ opacity: 1, transform: 'translateX(0)' }))
+      ]),
+      transition(':leave', [
+        animate('0.2s ease-in', style({ opacity: 0, transform: 'translateX(-20px)' }))
+      ])
+    ]),
+    trigger('staggerCards', [
+      transition('* => *', [
+        query(':enter', [
+          style({ opacity: 0, transform: 'translateX(50px)' }),
+          stagger('100ms', [
+            animate('0.5s ease-out', style({ opacity: 1, transform: 'translateX(0)' }))
+          ])
+        ], { optional: true })
+      ])
+    ])
+  ]
 })
-export class ExperienceComponent {
-  workExperience: WorkExperience[] = [
+export class ExperienceComponent implements OnInit, AfterViewInit {
+  @ViewChild('workExperienceSection') workExperienceSection!: ElementRef;
+
+  activeExperience = 0;
+  isInView = false;
+
+  // Experience data - you can add your Bajaj Finserv experience here
+  experiences: WorkExperience[] = [
     {
-      position: 'IT Technician',
-      company: 'Canada\'s Wonderland',
-      companyLogo: 'https://www.sunnypatel.net/assets/wonderland-logo.png',
-      period: 'Jun. 2023 - Present',
-      description: 'Leading IT infrastructure management and system deployment for one of Canada\'s largest amusement parks.',
-      responsibilities: [
-        'Provisioned Windows PCs with MDT, and deployed scripting via PowerShell and ConnectWise.',
-        'Managed AD accounts to propagate ACLs and unified access across in-house apps, Exchange, and SharePoint.',
-        'Configured Cisco CUCM, Unity, and Finesse for stable call routing and voicemail services.',
-        'Handled switch patching and VLAN/routing via PuTTY & SecureCRT, ensuring stable network performance.',
-        'Deployed Oracle POS/KDS/Debit solutions (EMC, Simphony), tracking updates in Jira & Confluence.'
-      ]
-    },
-    {
-      position: 'System Support Specialist',
-      company: 'Mackenzie Health',
-      companyLogo: 'https://www.sunnypatel.net/assets/mackenzie-health-logo.png',
-      period: 'Sep. 2022 - May 2023',
-      description: 'Provided comprehensive IT support for healthcare systems and infrastructure in a hospital environment.',
-      responsibilities: [
-        'Maintained and troubleshot healthcare IT systems and medical equipment interfaces.',
-        'Provided technical support for EMR systems and clinical applications.',
-        'Implemented security protocols and compliance measures for healthcare data.',
-        'Collaborated with clinical staff to resolve IT issues and improve system efficiency.',
-        'Documented procedures and maintained detailed incident reports.'
-      ]
-    },
-    {
-      position: 'Tech Sales Associate',
-      company: 'Staples Canada',
-      companyLogo: 'https://www.sunnypatel.net/assets/staples-logo.png',
-      period: 'Jan. 2021 - Aug. 2022',
-      description: 'Co-op position focused on technical sales, customer support, and technology consulting.',
-      responsibilities: [
-        'Provided technical consultation and product recommendations to customers.',
-        'Assisted with technology setup, configuration, and troubleshooting.',
-        'Managed inventory and maintained product knowledge of latest technology trends.',
-        'Developed strong customer service and communication skills.',
-        'Achieved sales targets while ensuring customer satisfaction.'
+      title: "Software Engineer",
+      company_name: "Bajaj Finserv",
+      icon: "assets/bajaj-logo.png",
+      iconBg: "#ffffff",
+      date: "Jan 2024 - Present",
+      points: [
+        "Developed responsive web applications using Angular framework and TypeScript",
+        "Integrated Salesforce (SFDC) solutions for customer relationship management",
+        "Collaborated with cross-functional teams to deliver high-quality financial software",
+        "Implemented modern web development practices and coding standards",
+        "Optimized application performance and user experience across different devices"
       ]
     }
+    // Add more experiences here if you have them
   ];
+
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+
+  ngOnInit() {}
+
+  ngAfterViewInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.setupScrollAnimations();
+      // Small delay to ensure DOM is ready
+      setTimeout(() => {
+        this.setupScrollAnimations();
+      }, 100);
+    }
+  }
+
+  selectExperience(index: number) {
+    this.activeExperience = index;
+  }
+
+  get currentExperience(): WorkExperience {
+    return this.experiences[this.activeExperience];
+  }
+
+  private setupScrollAnimations() {
+    if (typeof IntersectionObserver === 'undefined') {
+      return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          this.isInView = true;
+          const section = entry.target as HTMLElement;
+          
+          // Add main animation class
+          section.classList.add('animate-in');
+          
+          // Staggered animations for different elements
+          setTimeout(() => {
+            const subtitle = section.querySelector('.section-subtitle');
+            subtitle?.classList.add('animate');
+          }, 100);
+          
+          setTimeout(() => {
+            const title = section.querySelector('.section-title');
+            title?.classList.add('animate');
+          }, 300);
+          
+          setTimeout(() => {
+            const layout = section.querySelector('.experience-layout');
+            layout?.classList.add('animate');
+          }, 500);
+          
+          // Animate experience cards with stagger
+          setTimeout(() => {
+            const cards = section.querySelectorAll('.experience-card');
+            cards.forEach((card, index) => {
+              setTimeout(() => {
+                card.classList.add('animate');
+              }, index * 100);
+            });
+          }, 700);
+          
+          // Animate details panel
+          setTimeout(() => {
+            const details = section.querySelector('.experience-details');
+            details?.classList.add('animate');
+          }, 900);
+          
+          // Disconnect observer after animation
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.2,
+      rootMargin: '0px 0px -50px 0px'
+    });
+
+    if (this.workExperienceSection) {
+      observer.observe(this.workExperienceSection.nativeElement);
+    }
+  }
 }

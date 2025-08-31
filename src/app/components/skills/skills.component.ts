@@ -1,127 +1,182 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { trigger, transition, style, animate } from '@angular/animations';
-import { PortfolioDataService, Skill } from '../../services/portfolio-data.service';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild, AfterViewInit, Inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+
+export interface Technology {
+  name: string;
+  icon: string;
+}
+
+export interface SkillsRows {
+  programming: Technology[][];
+  itTools: Technology[][];
+  contentProduction: Technology[][];
+}
 
 @Component({
   selector: 'app-skills',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatIconModule],
+  imports: [CommonModule],
   templateUrl: './skills.component.html',
-  styleUrl: './skills.component.scss',
-  animations: [
-    trigger('fadeInUp', [
-      transition(':enter', [
-        style({ opacity: 0, transform: 'translateY(20px)' }),
-        animate('0.6s ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
-      ])
-    ])
-  ]
+  styleUrl: './skills.component.scss'
 })
-export class SkillsComponent implements OnInit {
-  skills: Skill[] = [];
-  filteredSkills: Skill[] = [];
-  activeCategory: string = 'all';
-  isVisible = false;
+export class SkillsComponent implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild('skillsSection') skillsSection!: ElementRef;
 
-  private skillIcons: { [key: string]: string } = {
-    'Angular': 'code',
-    'React': 'code',
-    'Vue.js': 'code',
-    'TypeScript': 'code',
-    'JavaScript': 'code',
-    'HTML/CSS': 'web',
-    'Sass/SCSS': 'palette',
-    'Node.js': 'dns',
-    'Python': 'smart_toy',
-    'Java': 'coffee',
-    'Express.js': 'dns',
-    'MongoDB': 'storage',
-    'PostgreSQL': 'storage',
-    'Docker': 'view_in_ar',
-    'AWS': 'cloud',
-    'Git': 'code',
-    'Webpack': 'build',
-    'Jest': 'bug_report'
+  isInView = false;
+  // Technology data matching the reference website categories
+  programming: Technology[] = [
+    { name: "Python", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" },
+    { name: "Java", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" },
+    { name: "C++", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" },
+    { name: "JavaScript", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" },
+    { name: "TypeScript", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" },
+    { name: "Docker", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" },
+    { name: "Tailwind CSS", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-plain.svg" },
+    { name: "React JS", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
+    { name: "PostgreSQL", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" },
+    { name: "MongoDB", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" },
+    { name: "Angular", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angularjs/angularjs-original.svg" },
+  ];
+
+  itTools: Technology[] = [
+    { name: "AWS", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original.svg" },
+    { name: "Ubuntu", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ubuntu/ubuntu-plain.svg" },
+    { name: "Git", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" },
+    { name: "Azure", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg" },
+    { name: "VSCode", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" },
+    { name: "GitHub", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" },
+    { name: "Linux", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" },
+    { name: "Windows", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/windows8/windows8-original.svg" },
+    { name: "Bash", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bash/bash-original.svg" },
+    { name: "Vim", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vim/vim-original.svg" },
+    { name: "NPM", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/npm/npm-original-wordmark.svg" },
+  ];
+
+  contentProduction: Technology[] = [
+    { name: "Figma", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" },
+    { name: "Adobe XD", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/xd/xd-plain.svg" },
+    { name: "Photoshop", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/photoshop/photoshop-line.svg" },
+  ];
+
+  // Responsive rows for each category - Honeycomb grid layout
+  public rows: {
+    programming: Technology[][];
+    itTools: Technology[][];
+    contentProduction: Technology[][];
+  } = {
+    programming: [],
+    itTools: [],
+    contentProduction: []
   };
 
-  constructor(private portfolioService: PortfolioDataService) {}
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   ngOnInit() {
-    this.portfolioService.getSkills().subscribe(skills => {
-      this.skills = skills;
-      this.filterSkills();
-      // Trigger animations after a short delay
-      setTimeout(() => {
-        this.isVisible = true;
-      }, 200);
-    });
-  }
-
-  setActiveCategory(category: string) {
-    this.activeCategory = category;
-    this.filterSkills();
-  }
-
-  private filterSkills() {
-    if (this.activeCategory === 'all') {
-      this.filteredSkills = [...this.skills];
-    } else {
-      this.filteredSkills = this.skills.filter(skill => skill.category === this.activeCategory);
+    if (isPlatformBrowser(this.platformId)) {
+      this.calculateRowsForAllCategories();
+      window.addEventListener('resize', () => this.calculateRowsForAllCategories());
     }
   }
 
-  getSkillIcon(skillName: string): string {
-    const icons = {
-      'frontend': 'web',
-      'backend': 'storage',
-      'tools': 'build',
-      'other': 'code'
-    };
-    return icons[skillName as keyof typeof icons] || this.skillIcons[skillName] || 'code';
+  ngAfterViewInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.setupScrollAnimations();
+    }
   }
 
-  getSkillDescription(skillName: string): string {
-    const descriptions: { [key: string]: string } = {
-      'Angular': 'Building scalable web applications with TypeScript',
-      'React': 'Creating interactive user interfaces and SPAs',
-      'Vue.js': 'Developing progressive web applications',
-      'TypeScript': 'Type-safe JavaScript development',
-      'JavaScript': 'Core programming language for web development',
-      'HTML/CSS': 'Semantic markup and responsive styling',
-      'Sass/SCSS': 'Advanced CSS preprocessing and styling',
-      'Node.js': 'Server-side JavaScript development',
-      'Python': 'Backend development and automation',
-      'Java': 'Enterprise application development',
-      'Express.js': 'Web application framework for Node.js',
-      'MongoDB': 'NoSQL database design and implementation',
-      'PostgreSQL': 'Relational database management',
-      'Docker': 'Containerization and deployment',
-      'AWS': 'Cloud infrastructure and services',
-      'Git': 'Version control and collaboration',
-      'Webpack': 'Module bundling and build optimization',
-      'Jest': 'Unit testing and test-driven development'
-    };
-    return descriptions[skillName] || 'Professional experience with this technology';
+  ngOnDestroy() {
+    if (isPlatformBrowser(this.platformId)) {
+      window.removeEventListener('resize', () => this.calculateRowsForAllCategories());
+    }
   }
 
-  getTotalSkills(): number {
-    return this.skills.length;
+  private calculateRows(width: number, techArray: Technology[]): Technology[][] {
+    let dynamicRows: Technology[][] = [];
+    let startIndex = 0;
+    let rowSize = 6;
+
+    if (width < 500) {
+      dynamicRows = [
+        techArray.slice(0, 3),
+        techArray.slice(3, 5),
+        techArray.slice(5, 8),
+        techArray.slice(8, 10),
+      ];
+    } else {
+      while (startIndex < techArray.length) {
+        const endIndex = startIndex + rowSize;
+        dynamicRows.push(techArray.slice(startIndex, endIndex));
+        startIndex += rowSize;
+        rowSize = rowSize === 6 ? 5 : 6;
+      }
+    }
+
+    return dynamicRows;
   }
 
-  getAverageLevel(): number {
-    if (this.skills.length === 0) return 0;
-    const total = this.skills.reduce((sum, skill) => sum + skill.level, 0);
-    return Math.round(total / this.skills.length);
+  private calculateRowsForAllCategories() {
+    if (isPlatformBrowser(this.platformId)) {
+      const width = window.innerWidth;
+      this.rows = {
+        programming: this.calculateRows(width, this.programming),
+        itTools: this.calculateRows(width, this.itTools),
+        contentProduction: this.calculateRows(width, this.contentProduction)
+      };
+    }
   }
 
-  getYearsExperience(): number {
-    return 5; // You can make this dynamic based on your actual experience
-  }
+  private setupScrollAnimations() {
+    if (typeof IntersectionObserver === 'undefined') {
+      return;
+    }
 
-  trackBySkill(index: number, skill: Skill): string {
-    return skill.name;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          this.isInView = true;
+          const section = entry.target as HTMLElement;
+          
+          // Add main animation class
+          section.classList.add('animate-in');
+          
+          // Staggered animations for different elements
+          setTimeout(() => {
+            const subtitle = section.querySelector('.section-subtitle');
+            subtitle?.classList.add('animate');
+          }, 100);
+          
+          setTimeout(() => {
+            const title = section.querySelector('.section-title');
+            title?.classList.add('animate');
+          }, 300);
+          
+          // Animate categories with stagger
+          const categories = section.querySelectorAll('.category-container');
+          categories.forEach((category, index) => {
+            setTimeout(() => {
+              category.classList.add('animate');
+              
+              // Animate hexagons within each category
+              const hexagons = category.querySelectorAll('.hexagon');
+              hexagons.forEach((hexagon, hexIndex) => {
+                setTimeout(() => {
+                  hexagon.classList.add('animate');
+                }, hexIndex * 50);
+              });
+            }, 500 + (index * 200));
+          });
+          
+          // Disconnect observer after animation
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.2,
+      rootMargin: '0px 0px -50px 0px'
+    });
+
+    if (this.skillsSection) {
+      observer.observe(this.skillsSection.nativeElement);
+    }
   }
 }

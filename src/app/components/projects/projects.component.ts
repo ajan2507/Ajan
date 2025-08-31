@@ -1,118 +1,215 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { trigger, transition, style, animate } from '@angular/animations';
-import { PortfolioDataService, Project } from '../../services/portfolio-data.service';
+import { PortfolioDataService } from '../../services/portfolio-data.service';
+
+interface ProjectData {
+  name: string;
+  description: string;
+  tags: { name: string; color: string }[];
+  image: string;
+  source_code_link: string;
+  live_project_link?: string;
+}
 
 @Component({
   selector: 'app-projects',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatIconModule, MatTooltipModule],
+  imports: [CommonModule],
   templateUrl: './projects.component.html',
-  styleUrl: './projects.component.scss',
-  animations: [
-    trigger('fadeInUp', [
-      transition(':enter', [
-        style({ opacity: 0, transform: 'translateY(30px)' }),
-        animate('0.8s ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
-      ])
-    ]),
-    trigger('modalSlide', [
-      transition(':enter', [
-        style({ opacity: 0, transform: 'scale(0.8)' }),
-        animate('0.3s ease-out', style({ opacity: 1, transform: 'scale(1)' }))
-      ]),
-      transition(':leave', [
-        animate('0.3s ease-in', style({ opacity: 0, transform: 'scale(0.8)' }))
-      ])
-    ])
-  ]
+  styleUrl: './projects.component.scss'
 })
-export class ProjectsComponent implements OnInit {
-  projects: Project[] = [];
-  filteredProjects: Project[] = [];
-  activeFilter: string = 'all';
-  selectedProject: Project | null = null;
-  hasMoreProjects: boolean = false;
+export class ProjectsComponent implements OnInit, OnDestroy, AfterViewInit {
+  @ViewChildren('projectCard', { read: ElementRef }) projectCards!: QueryList<ElementRef>;
+  
+  private intersectionObserver?: IntersectionObserver;
+  private isInView = false;
+  
+  projects: ProjectData[] = [
+    {
+      name: "FinancialFlow 💸",
+      description: "Comprehensive personal finance management application built with Next.js and Typescript. It empowers users to take control of their financial health through intuitive tracking, insightful analytics, and personalized recommendations.",
+      tags: [
+        { name: "React-native", color: "text-blue-400" },
+        { name: "Typescript", color: "text-green-400" },
+        { name: "Tailwind CSS", color: "text-pink-400" },
+        { name: "Next.js", color: "text-purple-400" }
+      ],
+      image: "https://via.placeholder.com/360x230/1d1836/ffffff?text=FinancialFlow",
+      source_code_link: "https://github.com/sunnypatell/FinancialFlow",
+      live_project_link: "https://financial-flow.vercel.app/"
+    },
+    {
+      name: "Sunnify (Spotify Downloader) ♫",
+      description: "Sunnify is a Spotify downloader webapp/desktop application that allows you to download entire playlists locally onto your Mac/Linux/Windows PC. The web version of the app is hosted on AWS Lambda and Elastic Beanstalk, with FastAPI ASGI production.",
+      tags: [
+        { name: "python", color: "text-blue-400" },
+        { name: "webscraping", color: "text-green-400" },
+        { name: "AWS Lambda/Beanstalk", color: "text-orange-400" },
+        { name: "Proxy/API", color: "text-purple-400" }
+      ],
+      image: "https://via.placeholder.com/360x230/1d1836/ffffff?text=Sunnify",
+      source_code_link: "https://github.com/sunnypatell/Sunnify",
+      live_project_link: "https://sunnify-spotify-downloader.vercel.app/"
+    },
+    {
+      name: "Enterprise API Tester 🌐",
+      description: "Comprehensive API testing tool with support for all major HTTP methods, authentication, and CORS-friendly proxy. Features include request import/export, real-world samples, and local storage for data persistence. Built with Next.js, and TypeScript for optimal performance and developer experience.",
+      tags: [
+        { name: "Typescript", color: "text-blue-400" },
+        { name: "Tailwind CSS", color: "text-green-400" },
+        { name: "Next.js", color: "text-pink-400" },
+        { name: "Authentication-Body", color: "text-orange-400" }
+      ],
+      image: "https://via.placeholder.com/360x230/1d1836/ffffff?text=API+Tester",
+      source_code_link: "https://github.com/sunnypatell/enterprise-api-request-tester",
+      live_project_link: "https://enterprise-api-request-tester.vercel.app/"
+    },
+    {
+      name: "KnifeThrow 🎯",
+      description: "KnifeThrow is a Java Swing-based 2D mini-game, packed by maven with over 5000 lines of code. It includes a menu, game-over screens, sound effects, and custom sprites. Players unlock different knives with varied abilities in a dedicated knife shop. The game features improved collision systems, animations, and particle effects for an immersive experience.",
+      tags: [
+        { name: "java", color: "text-red-400" },
+        { name: "swing", color: "text-blue-400" },
+        { name: "maven", color: "text-green-400" },
+        { name: "arcadegame", color: "text-purple-400" }
+      ],
+      image: "https://via.placeholder.com/360x230/1d1836/ffffff?text=KnifeThrow",
+      source_code_link: "https://github.com/sunnypatell/KnifeThrow",
+      live_project_link: "https://github.com/sunnypatell/KnifeThrow"
+    },
+    {
+      name: "COVID-19 GTA Cases Data Analysis 🧪",
+      description: "A deep dive into ongoing COVID-19 outbreaks in the Greater Toronto Area (GTA), Ontario. Using data from a government-licensed dataset called Outbreaks by Public Health Unit (PHU) to explore trends and patterns in these outbreaks. This data analysis integrates the essential aspects of the data science workflow (Filesize: 3.5 MiB, 62699 lines of raw dataset)",
+      tags: [
+        { name: "python", color: "text-blue-400" },
+        { name: "tensorflow", color: "text-orange-400" },
+        { name: "scikit-learn", color: "text-green-400" },
+        { name: "pandas", color: "text-pink-400" },
+        { name: "matplotlib", color: "text-purple-400" },
+        { name: "numpy", color: "text-yellow-400" }
+      ],
+      image: "https://via.placeholder.com/360x230/1d1836/ffffff?text=COVID+Analysis",
+      source_code_link: "https://github.com/sunnypatell/COVID-19-GTA-Cases-Data-Analysis",
+      live_project_link: "https://drive.google.com/drive/folders/1cTbp-6-flypV-kj3-q606UwwWEralu11"
+    },
+    {
+      name: "Secure Password Generator 🔐",
+      description: "Secure Password Generator is a Java-based tool designed to generate and manage secure passwords, prioritizing simplicity, security, and user-friendliness. It employs industry-standard encryption algorithms to create strong, unique passwords resistant to common hacking attempts.",
+      tags: [
+        { name: "java", color: "text-red-400" },
+        { name: "sha-256", color: "text-blue-400" },
+        { name: "encryption/decryption", color: "text-green-400" },
+        { name: "data-algorithms", color: "text-purple-400" }
+      ],
+      image: "https://via.placeholder.com/360x230/1d1836/ffffff?text=Password+Gen",
+      source_code_link: "https://github.com/sunnypatell/SecurePasswordGenerator",
+      live_project_link: "https://github.com/sunnypatell/SecurePasswordGenerator"
+    }
+  ];
 
   constructor(private portfolioService: PortfolioDataService) {}
 
   ngOnInit() {
-    this.portfolioService.getProjects().subscribe(projects => {
-      this.projects = projects;
-      this.filterProjects();
-      this.hasMoreProjects = projects.length > 6;
-    });
+    // Component initialization
   }
 
-  setActiveFilter(filter: string) {
-    this.activeFilter = filter;
-    this.filterProjects();
+  ngAfterViewInit() {
+    // Initialize tilt effect for project cards
+    this.initializeTiltEffect();
+    
+    // Setup intersection observer after view init
+    setTimeout(() => {
+      this.setupIntersectionObserver();
+    }, 100);
   }
 
-  private filterProjects() {
-    if (this.activeFilter === 'all') {
-      this.filteredProjects = this.projects.slice(0, 6); // Show first 6 projects
-    } else {
-      this.filteredProjects = this.projects
-        .filter(project => project.category === this.activeFilter)
-        .slice(0, 6);
+  ngOnDestroy() {
+    if (this.intersectionObserver) {
+      this.intersectionObserver.disconnect();
     }
   }
 
-  openDemo(url: string) {
+  private setupIntersectionObserver() {
+    this.intersectionObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !this.isInView) {
+            this.isInView = true;
+            this.triggerAnimations();
+          }
+        });
+      },
+      { 
+        threshold: 0.1,
+        rootMargin: '0px 0px -100px 0px'
+      }
+    );
+
+    // Start observing the component element
+    if (typeof document !== 'undefined') {
+      const element = document.querySelector('#projects');
+      if (element) {
+        this.intersectionObserver.observe(element);
+      }
+    }
+  }
+
+  private triggerAnimations() {
+    const projectCards = document.querySelectorAll('.project-card');
+    projectCards.forEach((card, index) => {
+      setTimeout(() => {
+        card.classList.add('animate-in');
+      }, index * 200);
+    });
+  }
+
+  private initializeTiltEffect() {
+    this.projectCards.forEach((cardRef) => {
+      const card = cardRef.nativeElement;
+      
+      card.addEventListener('mouseenter', () => {
+        card.style.transition = 'transform 0.15s ease-out';
+      });
+
+      card.addEventListener('mousemove', (e: MouseEvent) => {
+        // Check if we're hovering over the live project button
+        const target = e.target as HTMLElement;
+        if (target.classList.contains('live-project-btn') || target.closest('.live-project-btn')) {
+          return; // Don't apply tilt effect when hovering over the button
+        }
+
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const rotateX = (y - centerY) / centerY * 15;  // Reversed: positive for bottom, negative for top
+        const rotateY = (x - centerX) / centerX * -15; // Reversed: negative for right, positive for left
+        
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.transition = 'transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+      });
+    });
+  }
+
+  openSourceCode(url: string) {
     window.open(url, '_blank');
   }
 
-  openGithub(url: string) {
+  openLiveProject(url: string) {
     window.open(url, '_blank');
   }
 
-  openProjectDetails(project: Project) {
-    this.selectedProject = project;
-    document.body.style.overflow = 'hidden';
-  }
-
-  closeProjectDetails() {
-    this.selectedProject = null;
-    document.body.style.overflow = 'auto';
-  }
-
-  viewAllProjects() {
-    // This would typically navigate to a dedicated projects page
-    this.filteredProjects = [...this.projects];
-    this.hasMoreProjects = false;
-  }
-
-  formatProjectDate(startDate: Date, endDate?: Date): string {
-    const start = startDate.toLocaleDateString('en-US', { 
-      month: 'short', 
-      year: 'numeric' 
-    });
-    
-    if (!endDate) {
-      return `${start} - Ongoing`;
+  onImageError(event: Event) {
+    const target = event.target as HTMLImageElement;
+    if (target) {
+      target.src = '/assets/project-placeholder.svg';
     }
-    
-    const end = endDate.toLocaleDateString('en-US', { 
-      month: 'short', 
-      year: 'numeric' 
-    });
-    
-    // If same year, show only months
-    if (startDate.getFullYear() === endDate.getFullYear()) {
-      const startMonth = startDate.toLocaleDateString('en-US', { month: 'short' });
-      const endMonth = endDate.toLocaleDateString('en-US', { month: 'short' });
-      const year = startDate.getFullYear();
-      return `${startMonth} - ${endMonth} ${year}`;
-    }
-    
-    return `${start} - ${end}`;
-  }
-
-  trackByProject(index: number, project: Project): string {
-    return project.id;
   }
 }

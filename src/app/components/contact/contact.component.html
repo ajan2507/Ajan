@@ -1,167 +1,84 @@
-<section id="contact" class="contact">
-  <div class="container">
+<section id="contact" class="contact-section">
+  <div class="contact-container">
+    <!-- Section Header -->
     <div class="section-header">
-      <h2 class="section-title">Get In Touch</h2>
-      <p class="section-subtitle">Let's work together on your next project</p>
+      <h3 class="section-subtitle">GET IN TOUCH</h3>
+      <h2 class="section-title">Contact.</h2>
     </div>
 
+    <!-- Phone Number -->
+    <div class="phone-section">
+      <a href="tel:+14372161611" class="phone-link">(437) 216-1611</a>
+    </div>
+
+    <!-- Main Contact Content -->
     <div class="contact-content">
-      <div class="contact-info">
-        <div class="contact-intro">
-          <h3>Ready to start a conversation?</h3>
-          <p>
-            I'm always interested in hearing about new opportunities, interesting projects, 
-            or just having a chat about technology. Whether you have a question or just want 
-            to say hello, I'll do my best to get back to you!
-          </p>
-        </div>
-
-        <div class="contact-methods">
-          <div class="contact-method">
-            <div class="method-icon">
-              <mat-icon>email</mat-icon>
-            </div>
-            <div class="method-info">
-              <h4>Email</h4>
-              <a href="mailto:john.doe&#64;example.com">john.doe&#64;example.com</a>
-            </div>
-          </div>
-
-          <div class="contact-method">
-            <div class="method-icon">
-              <mat-icon>phone</mat-icon>
-            </div>
-            <div class="method-info">
-              <h4>Phone</h4>
-              <a href="tel:+1234567890">+1 (234) 567-890</a>
-            </div>
-          </div>
-
-          <div class="contact-method">
-            <div class="method-icon">
-              <mat-icon>location_on</mat-icon>
-            </div>
-            <div class="method-info">
-              <h4>Location</h4>
-              <span>San Francisco, CA</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="social-connect">
-          <h4>Connect with me</h4>
-          <div class="social-links">
-            <a href="https://github.com" target="_blank" class="social-link">
-              <mat-icon>code</mat-icon>
-              <span>GitHub</span>
-            </a>
-            <a href="https://linkedin.com" target="_blank" class="social-link">
-              <mat-icon>business</mat-icon>
-              <span>LinkedIn</span>
-            </a>
-            <a href="https://twitter.com" target="_blank" class="social-link">
-              <mat-icon>alternate_email</mat-icon>
-              <span>Twitter</span>
-            </a>
-          </div>
-        </div>
+      <!-- Left Side: 3D Earth Globe -->
+      <div class="globe-section">
+        <app-earth-canvas></app-earth-canvas>
       </div>
 
-      <div class="contact-form">
-        <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="form">
-          <div class="form-row">
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Your Name</mat-label>
-              <input 
-                matInput 
-                formControlName="name" 
-                placeholder="Enter your full name"
-                required
-              />
-              <mat-error *ngIf="contactForm.get('name')?.hasError('required')">
-                Name is required
-              </mat-error>
-            </mat-form-field>
+      <!-- Right Side: Contact Form -->
+      <div class="form-section">
+
+        <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form">
+          <!-- Name Field -->
+          <div class="form-group">
+            <input 
+              type="text"
+              formControlName="name" 
+              placeholder="Name"
+              class="form-input"
+              required
+            />
           </div>
 
-          <div class="form-row">
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Email Address</mat-label>
-              <input 
-                matInput 
-                type="email"
-                formControlName="email" 
-                placeholder="your.email@example.com"
-                required
-              />
-              <mat-error *ngIf="contactForm.get('email')?.hasError('required')">
-                Email is required
-              </mat-error>
-              <mat-error *ngIf="contactForm.get('email')?.hasError('email')">
-                Please enter a valid email address
-              </mat-error>
-            </mat-form-field>
+          <!-- Email Field -->
+          <div class="form-group">
+            <input 
+              type="email"
+              formControlName="email" 
+              placeholder="Email"
+              class="form-input"
+              required
+            />
           </div>
 
-          <div class="form-row">
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Subject</mat-label>
-              <input 
-                matInput 
-                formControlName="subject" 
-                placeholder="What's this about?"
-                required
-              />
-              <mat-error *ngIf="contactForm.get('subject')?.hasError('required')">
-                Subject is required
-              </mat-error>
-            </mat-form-field>
+          <!-- Message Field -->
+          <div class="form-group">
+            <textarea 
+              formControlName="message" 
+              placeholder="Message"
+              class="form-textarea"
+              rows="6"
+              required
+            ></textarea>
           </div>
 
-          <div class="form-row">
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Message</mat-label>
-              <textarea 
-                matInput 
-                formControlName="message" 
-                rows="6"
-                placeholder="Tell me about your project or just say hello!"
-                required
-              ></textarea>
-              <mat-error *ngIf="contactForm.get('message')?.hasError('required')">
-                Message is required
-              </mat-error>
-              <mat-error *ngIf="contactForm.get('message')?.hasError('minlength')">
-                Message should be at least 10 characters long
-              </mat-error>
-            </mat-form-field>
+          <!-- reCAPTCHA -->
+          <div class="recaptcha-section">
+            <p class="recaptcha-text">Protected by reCAPTCHA Enterprise.</p>
           </div>
 
+          <!-- Submit Button -->
           <div class="form-actions">
             <button 
-              mat-raised-button 
-              color="primary" 
               type="submit" 
               [disabled]="contactForm.invalid || isSubmitting"
               class="submit-btn"
             >
-              <mat-icon *ngIf="!isSubmitting">send</mat-icon>
-              <mat-progress-spinner 
-                *ngIf="isSubmitting" 
-                diameter="20" 
-                mode="indeterminate"
-              ></mat-progress-spinner>
-              <span>{{ isSubmitting ? 'Sending...' : 'Send Message' }}</span>
+              <span class="btn-icon">⚔️</span>
+              <span class="btn-text">{{ isSubmitting ? 'Sending...' : 'Send Message' }}</span>
             </button>
           </div>
         </form>
 
-        <div class="form-status" *ngIf="submitStatus">
-          <div class="status-message" [class]="submitStatus.type">
-            <mat-icon>{{ submitStatus.type === 'success' ? 'check_circle' : 'error' }}</mat-icon>
-            <span>{{ submitStatus.message }}</span>
-          </div>
+      <!-- Form Status -->
+      <div class="form-status" *ngIf="submitStatus">
+        <div class="status-message" [class]="submitStatus.type">
+          <span>{{ submitStatus.message }}</span>
         </div>
+      </div>
       </div>
     </div>
   </div>

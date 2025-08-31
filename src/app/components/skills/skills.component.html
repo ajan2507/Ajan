@@ -1,125 +1,74 @@
-<section id="skills" class="skills">
+<!-- Skills Section - Honeycomb Hexagon Design -->
+<section #skillsSection class="skills-section">
   <div class="container">
-    <div class="skills-header">
-      <h2 class="section-title">Skills & Expertise</h2>
-      <p class="section-subtitle">
-        A comprehensive overview of the technologies and tools I use to bring ideas to life
-      </p>
+    <!-- Section Header -->
+    <div class="section-subtitle">
+      <p>Technical Proficiencies</p>
+    </div>
+    <div class="section-title">
+      <h2>Skills.</h2>
     </div>
 
-    <div class="skills-filter">
-      <button 
-        class="filter-btn"
-        [class.active]="activeCategory === 'all'"
-        (click)="setActiveCategory('all')"
-      >
-        All Skills
-      </button>
-      <button 
-        class="filter-btn"
-        [class.active]="activeCategory === 'frontend'"
-        (click)="setActiveCategory('frontend')"
-      >
-        Frontend
-      </button>
-      <button 
-        class="filter-btn"
-        [class.active]="activeCategory === 'backend'"
-        (click)="setActiveCategory('backend')"
-      >
-        Backend
-      </button>
-      <button 
-        class="filter-btn"
-        [class.active]="activeCategory === 'tools'"
-        (click)="setActiveCategory('tools')"
-      >
-        Tools & Others
-      </button>
-    </div>
-
-    <div class="skills-grid">
-      <div 
-        class="skill-card" 
-        *ngFor="let skill of filteredSkills; trackBy: trackBySkill"
-        [attr.data-category]="skill.category"
-        [class.animate]="isVisible"
-      >
-        <div class="skill-header">
-          <div class="skill-icon">
-            <mat-icon>{{ getSkillIcon(skill.category) }}</mat-icon>
-          </div>
-          <div class="skill-info">
-            <div class="skill-name">{{ skill.name }}</div>
-            <div class="skill-category">{{ skill.category }}</div>
-          </div>
-          <div class="skill-level-text">{{ skill.level }}%</div>
-        </div>
-        
-        <div class="skill-progress">
-          <div class="progress-bar">
-            <div 
-              class="progress-fill" 
-              [style.width.%]="isVisible ? skill.level : 0"
-              [style.--skill-level]="skill.level + '%'"
-            ></div>
-          </div>
-        </div>
-        
-        <div class="skill-description">
-          {{ getSkillDescription(skill.name) }}
-        </div>
-        
-        <div class="skill-category-badge">
-          <span class="category-tag" [class]="skill.category">
-            {{ skill.category | titlecase }}
-          </span>
-        </div>
-      </div>
-    </div>
-
-    <div class="skills-summary">
-      <div class="summary-content">
-        <h3>Continuous Learning Journey</h3>
-        <p>
-          I believe in staying updated with the latest technologies and best practices. 
-          My skill set continues to evolve as I take on new challenges and explore 
-          emerging technologies in the ever-changing world of software development.
-        </p>
-        
-        <div class="summary-stats">
-          <div class="stat-item">
-            <span class="stat-number">{{ getTotalSkills() }}</span>
-            <span class="stat-label">Technologies</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number">{{ getAverageLevel() }}%</span>
-            <span class="stat-label">Avg. Proficiency</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number">{{ getYearsExperience() }}+</span>
-            <span class="stat-label">Years Experience</span>
+    <!-- Programming Category -->
+    <div class="category-container">
+      <h2 class="category-title top">&lt;programming&gt;</h2>
+      <div class="honeycomb-grid">
+        <div 
+          *ngFor="let row of rows.programming; let rowIndex = index"
+          class="honeycomb-row"
+          [class.staggered-row]="rowIndex % 2 === 1"
+        >
+          <div 
+            *ngFor="let tech of row"
+            class="hexagon"
+          >
+            <img [src]="tech.icon" [alt]="tech.name" draggable="false">
           </div>
         </div>
       </div>
+      <h2 class="category-title bottom">&lt;/programming&gt;</h2>
+    </div>
 
-      <div class="certifications">
-        <h3>Certifications & Achievements</h3>
-        <div class="cert-list">
-          <div class="cert-item">
-            <mat-icon>verified</mat-icon>
-            <span>AWS Certified Developer Associate</span>
-          </div>
-          <div class="cert-item">
-            <mat-icon>verified</mat-icon>
-            <span>Google Cloud Professional Cloud Architect</span>
-          </div>
-          <div class="cert-item">
-            <mat-icon>verified</mat-icon>
-            <span>Angular Certified Developer</span>
+    <!-- IT Tools Category -->
+    <div class="category-container">
+      <h2 class="category-title top">&lt;itTools&gt;</h2>
+      <div class="honeycomb-grid">
+        <div 
+          *ngFor="let row of rows.itTools; let rowIndex = index"
+          class="honeycomb-row"
+          [class.staggered-row]="rowIndex % 2 === 1"
+        >
+          <div 
+            *ngFor="let tech of row"
+            class="hexagon"
+          >
+            <img [src]="tech.icon" [alt]="tech.name" draggable="false">
           </div>
         </div>
       </div>
+      <h2 class="category-title bottom">&lt;/itTools&gt;</h2>
+    </div>
+
+    <!-- Content Production Category -->
+    <div class="category-container">
+      <h2 class="category-title top">&lt;contentProduction&gt;</h2>
+      <div class="honeycomb-grid">
+        <div 
+          *ngFor="let row of rows.contentProduction; let rowIndex = index"
+          class="honeycomb-row"
+          [class.staggered-row]="rowIndex % 2 === 1"
+        >
+          <div 
+            *ngFor="let tech of row"
+            class="hexagon"
+          >
+            <img [src]="tech.icon" [alt]="tech.name" draggable="false">
+          </div>
+        </div>
+      </div>
+      <h2 class="category-title bottom">&lt;/contentProduction&gt;</h2>
     </div>
   </div>
 </section>
+
+
