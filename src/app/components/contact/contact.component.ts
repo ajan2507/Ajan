@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, Inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EarthCanvasComponent } from '../earth-canvas/earth-canvas.component';
 
@@ -19,12 +19,16 @@ interface SubmitStatus {
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.scss'
 })
-export class ContactComponent implements OnInit {
+export class ContactComponent implements OnInit, AfterViewInit {
+  @ViewChild('contactSection') contactSection!: ElementRef;
   contactForm!: FormGroup;
   isSubmitting = false;
   submitStatus: SubmitStatus | null = null;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {}
 
   ngOnInit() {
     this.contactForm = this.fb.group({
@@ -32,6 +36,54 @@ export class ContactComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       message: ['', [Validators.required, Validators.minLength(10)]]
     });
+  }
+
+  ngAfterViewInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.setupScrollAnimations();
+    }
+  }
+
+  private setupScrollAnimations() {
+    if (typeof IntersectionObserver === 'undefined') {
+      return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          // Stagger animations
+          setTimeout(() => {
+            entry.target.querySelector('.section-subtitle')?.classList.add('animate-fadeInUp');
+          }, 0);
+          
+          setTimeout(() => {
+            entry.target.querySelector('.section-title')?.classList.add('animate-slideInFromBottom');
+          }, 200);
+          
+          setTimeout(() => {
+            entry.target.querySelector('.phone-section')?.classList.add('animate-fadeInUp');
+          }, 400);
+          
+          setTimeout(() => {
+            entry.target.querySelector('.globe-section')?.classList.add('animate-slideInFromLeft');
+          }, 600);
+          
+          setTimeout(() => {
+            entry.target.querySelector('.form-section')?.classList.add('animate-slideInFromRight');
+          }, 800);
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    });
+
+    // Observe the contact section
+    const contactElement = document.querySelector('#contact');
+    if (contactElement) {
+      observer.observe(contactElement);
+    }
   }
 
   async onSubmit() {

@@ -25,6 +25,14 @@
       letter-spacing: 1.75px;
       margin-bottom: 16px;
       line-height: 1;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s ease;
+
+      &.animate-fadeInUp {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .section-title {
@@ -33,6 +41,14 @@
       font-size: clamp(30px, 5vw, 60px);
       margin: 0;
       line-height: 1;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 0.8s ease;
+
+      &.animate-slideInFromBottom {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   }
 

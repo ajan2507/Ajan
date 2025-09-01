@@ -9,6 +9,8 @@
   max-width: 80rem;
   margin-left: auto;
   margin-right: auto;
+  min-height: 100vh; /* Ensure consistent height */
+  box-sizing: border-box;
 }
 
 /* Introduction section */

@@ -135,7 +135,10 @@ export class ProjectsComponent implements OnInit, OnDestroy, AfterViewInit {
         entries.forEach((entry) => {
           if (entry.isIntersecting && !this.isInView) {
             this.isInView = true;
-            this.triggerAnimations();
+            this.triggerHeaderAnimations();
+            setTimeout(() => {
+              this.triggerAnimations();
+            }, 600); // Start card animations after header animations
           }
         });
       },
@@ -152,6 +155,20 @@ export class ProjectsComponent implements OnInit, OnDestroy, AfterViewInit {
         this.intersectionObserver.observe(element);
       }
     }
+  }
+
+  private triggerHeaderAnimations() {
+    // Animate subtitle first
+    setTimeout(() => {
+      const subtitle = document.querySelector('.projects-section .section-subtitle');
+      subtitle?.classList.add('animate-fadeInUp');
+    }, 0);
+    
+    // Animate title after subtitle
+    setTimeout(() => {
+      const title = document.querySelector('.projects-section .section-title');
+      title?.classList.add('animate-slideInFromBottom');
+    }, 200);
   }
 
   private triggerAnimations() {

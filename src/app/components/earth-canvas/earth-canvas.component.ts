@@ -52,13 +52,21 @@ export class EarthCanvasComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private initThreeJS() {
+    // Ensure container has dimensions
+    const container = this.canvasContainer.nativeElement;
+    if (container.clientWidth === 0 || container.clientHeight === 0) {
+      // Set default dimensions if container has no size
+      container.style.width = '100%';
+      container.style.height = '400px';
+    }
+
     // Scene
     this.scene = new THREE.Scene();
 
     // Camera
     this.camera = new THREE.PerspectiveCamera(
       75,
-      this.canvasContainer.nativeElement.clientWidth / this.canvasContainer.nativeElement.clientHeight,
+      container.clientWidth / container.clientHeight,
       0.1,
       1000
     );
@@ -70,14 +78,15 @@ export class EarthCanvasComponent implements OnInit, AfterViewInit, OnDestroy {
       alpha: true
     });
     this.renderer.setSize(
-      this.canvasContainer.nativeElement.clientWidth,
-      this.canvasContainer.nativeElement.clientHeight
+      container.clientWidth,
+      container.clientHeight
     );
-    this.renderer.setPixelRatio(window.devicePixelRatio);
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    this.renderer.setClearColor(0x000000, 0); // Transparent background
 
-    this.canvasContainer.nativeElement.appendChild(this.renderer.domElement);
+    container.appendChild(this.renderer.domElement);
 
     // Lighting
     const ambientLight = new THREE.AmbientLight(0x404040, 0.4);
