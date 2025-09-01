@@ -30,9 +30,13 @@
 .computer-canvas-section {
   height: 100vh;
   width: 100%;
-  background: #050816;
+  background: transparent;
   position: relative;
   overflow: hidden;
+  margin-top: -280px; // Remove the unwanted top space
+  display: flex;
+  align-items: center;
+  justify-content: center;
   
   app-computer-canvas {
     width: 100%;
