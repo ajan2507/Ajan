@@ -62,7 +62,7 @@ export class ComputerCanvasComponent implements AfterViewInit, OnDestroy {
       this.camera.position.set(20, 3, 5);
     }
 
-    // Renderer - exact same settings as JSX
+    // Renderer - enhanced settings for better lighting
     this.renderer = new THREE.WebGLRenderer({ 
       antialias: true, 
       alpha: true,
@@ -72,6 +72,9 @@ export class ComputerCanvasComponent implements AfterViewInit, OnDestroy {
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    this.renderer.outputColorSpace = THREE.SRGBColorSpace;
+    this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    this.renderer.toneMappingExposure = 1.5; // Increase exposure for brighter rendering
     container.appendChild(this.renderer.domElement);
 
     this.loadComputerModel();
@@ -100,6 +103,33 @@ export class ComputerCanvasComponent implements AfterViewInit, OnDestroy {
           this.computer.position.set(0, -3.25, -1.5);
           this.computer.rotation.set(-0.01, -0.2, -0.1);
         }
+        
+        // Enable shadows and enhance materials for better lighting response
+        this.computer.traverse((child: any) => {
+          if (child.isMesh) {
+            child.castShadow = true;
+            child.receiveShadow = true;
+            
+            // Enhance material properties for better lighting response
+            if (child.material) {
+              if (Array.isArray(child.material)) {
+                child.material.forEach((mat: any) => {
+                  if (mat.isMeshStandardMaterial || mat.isMeshPhysicalMaterial) {
+                    mat.envMapIntensity = 1.5;
+                    mat.metalness = Math.min(mat.metalness * 1.2, 1);
+                    mat.roughness = Math.max(mat.roughness * 0.8, 0.1);
+                  }
+                });
+              } else {
+                if (child.material.isMeshStandardMaterial || child.material.isMeshPhysicalMaterial) {
+                  child.material.envMapIntensity = 1.5;
+                  child.material.metalness = Math.min(child.material.metalness * 1.2, 1);
+                  child.material.roughness = Math.max(child.material.roughness * 0.8, 0.1);
+                }
+              }
+            }
+          }
+        });
         
         this.scene.add(this.computer);
       },
@@ -138,14 +168,14 @@ export class ComputerCanvasComponent implements AfterViewInit, OnDestroy {
   }
 
   private setupLighting() {
-    // Exact same lighting as JSX
+    // Enhanced lighting with increased intensity for better visibility
     
-    // Hemisphere light (like hemisphereLight in JSX)
-    const hemisphereLight = new THREE.HemisphereLight(0xffffff, 0x000000, 0.15);
+    // Hemisphere light - increased intensity for better ambient lighting
+    const hemisphereLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.6);
     this.scene.add(hemisphereLight);
 
-    // Spot light (exact same as JSX)
-    const spotLight = new THREE.SpotLight(0xffffff, 1);
+    // Spot light - increased intensity for main lighting
+    const spotLight = new THREE.SpotLight(0xffffff, 3);
     spotLight.position.set(-20, 50, 10);
     spotLight.angle = 0.12;
     spotLight.penumbra = 1;
@@ -154,9 +184,28 @@ export class ComputerCanvasComponent implements AfterViewInit, OnDestroy {
     spotLight.shadow.mapSize.height = 1024;
     this.scene.add(spotLight);
 
-    // Point light (exact same as JSX)
-    const pointLight = new THREE.PointLight(0xffffff, 1);
+    // Point light - significantly increased intensity
+    const pointLight = new THREE.PointLight(0xffffff, 2);
     this.scene.add(pointLight);
+    
+    // Additional directional light for even better illumination
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    directionalLight.position.set(10, 10, 5);
+    directionalLight.castShadow = true;
+    this.scene.add(directionalLight);
+    
+    // Add invisible ground plane to receive shadows
+    const groundGeometry = new THREE.PlaneGeometry(100, 100);
+    const groundMaterial = new THREE.MeshStandardMaterial({ 
+      color: 0x000000, 
+      transparent: true, 
+      opacity: 0.1
+    });
+    const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+    ground.rotation.x = -Math.PI / 2;
+    ground.position.y = -4;
+    ground.receiveShadow = true;
+    this.scene.add(ground);
   }
 
   private setupControls() {

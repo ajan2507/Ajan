@@ -1,11 +1,10 @@
 import { Component, OnInit, OnDestroy, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { ComputerCanvasComponent } from '../computer-canvas/computer-canvas.component';
 
 @Component({
   selector: 'app-hero',
   standalone: true,
-  imports: [CommonModule, ComputerCanvasComponent],
+  imports: [CommonModule],
   template: `
     <section class="hero-section">
       <div class="hero-container">
@@ -19,14 +18,6 @@ import { ComputerCanvasComponent } from '../computer-canvas/computer-canvas.comp
             <p class="subtitle">
               I'm a <span class="typing-text">{{ currentRole }}</span>
             </p>
-          </div>
-          
-          <div class="model-content">
-            <div class="hero-right">
-              <div class="computer-container">
-                <app-computer-canvas></app-computer-canvas>
-              </div>
-            </div>
           </div>
         </div>
       </div>
