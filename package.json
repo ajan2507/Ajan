@@ -29,6 +29,7 @@
     "intersection-observer": "^0.12.2",
     "rxjs": "~7.8.0",
     "three": "^0.179.1",
+    "three-stdlib": "^2.36.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
   },

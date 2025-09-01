@@ -8,7 +8,7 @@ import { SkillsComponent } from './components/skills/skills.component';
 import { ProjectsComponent } from './components/projects/projects.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { FooterComponent } from './components/footer/footer.component';
-
+import { ComputerCanvasComponent } from './components/computer-canvas/computer-canvas.component';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -21,7 +21,8 @@ import { FooterComponent } from './components/footer/footer.component';
     SkillsComponent,
     ProjectsComponent,
     ContactComponent,
-    FooterComponent
+    FooterComponent,
+    ComputerCanvasComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
