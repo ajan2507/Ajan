@@ -39,76 +39,71 @@ export class EducationComponent implements OnInit, AfterViewInit {
       return;
     }
 
+    let hasAnimated = false;
+
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          // Stagger animations
+        if (entry.isIntersecting && !hasAnimated) {
+          hasAnimated = true;
+          
+          // Simple, clean animation sequence like About component
           setTimeout(() => {
-            entry.target.querySelector('.introduction-section')?.classList.add('animate-fadeInUp');
-          }, 0);
+            this.animateElement('.introduction-section', 'animate-fadeInUp');
+          }, 100);
           
           setTimeout(() => {
-            entry.target.querySelector('.title-section')?.classList.add('animate-slideInFromBottom');
-          }, 200);
+            this.animateElement('.title-section', 'animate-slideInFromBottom');
+          }, 300);
           
           setTimeout(() => {
-            entry.target.querySelector('.vertical-timeline')?.classList.add('animate-slideInFromLeft');
-          }, 400);
+            this.animateElement('.vertical-timeline', 'animate-slideInFromLeft');
+          }, 500);
           
-          // Animate individual timeline elements with staggered sequence
+          // Animate timeline elements with simpler approach
           setTimeout(() => {
-            const timelineElements = entry.target.querySelectorAll('.vertical-timeline-element');
-            timelineElements.forEach((element: Element, index: number) => {
-              // Stagger each timeline element by 400ms
-              setTimeout(() => {
-                // 1. Icon zooms in first (immediately when animation class is added)
-                const icon = element.querySelector('.vertical-timeline-element-icon');
-                icon?.classList.add('bounce-in');
-                
-                // 2. Content slides in from appropriate side (200ms after icon)
-                setTimeout(() => {
-                  const content = element.querySelector('.vertical-timeline-element-content');
-                  const isEven = (index + 1) % 2 === 0;
-                  
-                  if (isEven) {
-                    // Even elements (right side on desktop) slide from right
-                    content?.classList.add('slide-in-right');
-                  } else {
-                    // Odd elements (left side on desktop) slide from left  
-                    content?.classList.add('slide-in-left');
-                  }
-                }, 200);
-                
-                // 3. Date bounces in from opposite direction (400ms after content starts)
-                setTimeout(() => {
-                  const date = element.querySelector('.vertical-timeline-element-date');
-                  const isEven = (index + 1) % 2 === 0;
-                  
-                  if (isEven) {
-                    // Even elements: date slides from left (opposite of content)
-                    date?.classList.add('date-slide-left');
-                  } else {
-                    // Odd elements: date slides from right (opposite of content)
-                    date?.classList.add('date-slide-right');
-                  }
-                }, 400);
-                
-              }, index * 400); // Stagger timeline elements by 400ms each
-            });
-          }, 600);
+            this.animateTimelineElements();
+          }, 700);
           
-          setTimeout(() => {
-            entry.target.querySelector('.footer-section')?.classList.add('animate-fadeInUp');
-          }, 1000);
+          observer.unobserve(entry.target);
         }
       });
     }, {
       threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
+      rootMargin: '0px 0px -100px 0px'
     });
 
     if (this.educationSection) {
       observer.observe(this.educationSection.nativeElement);
     }
+  }
+
+  private animateElement(selector: string, animationClass: string) {
+    const element = this.educationSection.nativeElement.querySelector(selector);
+    if (element) {
+      element.classList.add(animationClass);
+    }
+  }
+
+  private animateTimelineElements() {
+    const timelineElements = this.educationSection.nativeElement.querySelectorAll('.vertical-timeline-element');
+    timelineElements.forEach((element: Element, index: number) => {
+      setTimeout(() => {
+        const icon = element.querySelector('.vertical-timeline-element-icon');
+        const content = element.querySelector('.vertical-timeline-element-content');
+        const date = element.querySelector('.vertical-timeline-element-date');
+        const isEven = (index + 1) % 2 === 0;
+        
+        // Add simple animation classes
+        icon?.classList.add('animate-bounce-in');
+        
+        if (isEven) {
+          content?.classList.add('animate-slide-in-right');
+          date?.classList.add('animate-date-slide-left');
+        } else {
+          content?.classList.add('animate-slide-in-left');
+          date?.classList.add('animate-date-slide-right');
+        }
+      }, index * 80); // Even faster staggering for ultra-smooth feel
+    });
   }
 }

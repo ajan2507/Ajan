@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy, ElementRef, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChildren, QueryList, AfterViewInit, Inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { PortfolioDataService } from '../../services/portfolio-data.service';
 
 interface ProjectData {
@@ -107,7 +107,10 @@ export class ProjectsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   ];
 
-  constructor(private portfolioService: PortfolioDataService) {}
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private portfolioService: PortfolioDataService
+  ) {}
 
   ngOnInit() {
     // Component initialization
@@ -130,6 +133,26 @@ export class ProjectsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private setupIntersectionObserver() {
+    // Skip IntersectionObserver setup in SSR environment
+    if (!isPlatformBrowser(this.platformId)) {
+      // Just trigger animations immediately for SSR
+      this.triggerHeaderAnimations();
+      setTimeout(() => {
+        this.triggerAnimations();
+      }, 600);
+      return;
+    }
+    
+    // Additional check for IntersectionObserver availability
+    if (typeof IntersectionObserver === 'undefined') {
+      // Fallback for environments without IntersectionObserver
+      this.triggerHeaderAnimations();
+      setTimeout(() => {
+        this.triggerAnimations();
+      }, 600);
+      return;
+    }
+    
     this.intersectionObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {

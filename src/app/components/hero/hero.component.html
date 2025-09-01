@@ -1,14 +1,22 @@
 <section class="hero-section">
   <div class="hero-container">
     <div class="hero-content">
-      <h1 class="main-title">
-        Hi, I'm <span class="name-highlight">Karthick Ajan</span> 
-        <span class="wave-emoji">👋</span>
-      </h1>
+      <!-- Left side: Text content -->
+      <div class="text-content">
+        <h1 class="main-title">
+          Hi, I'm <span class="name-highlight">Karthick</span> 
+          <span class="wave-emoji">👋</span>
+        </h1>
+        
+        <p class="subtitle">
+          I'm a <span class="typing-text">{{ currentRole }}</span>
+        </p>
+      </div>
       
-      <p class="subtitle">
-        I'm a Full Stack Developer
-      </p>
+      <!-- Canvas takes all remaining space -->
+      <div class="model-content">
+        <app-computer-canvas></app-computer-canvas>
+      </div>
     </div>
   </div>
 </section>
