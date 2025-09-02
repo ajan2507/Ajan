@@ -9,6 +9,30 @@
   justify-content: center;
   padding: 2rem;
   
+  /* Background image like reference website */
+  background-image: url('/assets/herobg.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  
+  /* Dark overlay to ensure text readability */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(5, 8, 22, 0.8);
+    z-index: 1;
+  }
+  
+  /* Ensure content is above overlay */
+  .hero-container {
+    position: relative;
+    z-index: 2;
+  }
+  
   .hero-container {
     max-width: 1200px;
     width: 100%;

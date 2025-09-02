@@ -10,7 +10,11 @@
   margin-left: auto;
   margin-right: auto;
   min-height: 100vh; /* Ensure consistent height */
+  height: auto; /* Allow content to determine height */
   box-sizing: border-box;
+  
+  /* Prevent layout shift during animations */
+  contain: layout;
 }
 
 /* Introduction section */

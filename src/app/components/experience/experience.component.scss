@@ -1,67 +1,62 @@
 // Experience Section - Dark theme matching React version
 .experience-section {
-  width: 100%;
-  background: #050816; // Dark background
-  padding: 5rem 0;
-  position: relative;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
+  background: #050816;
+  color: white;
+  margin: 0px 0;
+  padding: 64px;
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
 
   .container {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 0 1.5rem;
     width: 100%;
-
-    @media (min-width: 640px) {
-      padding: 0 4rem;
-    }
   }
 
-  // Section subtitle
-  .section-subtitle {
-    text-align: center;
-    // margin-bottom: 1rem;
-
+  // Introduction section
+  .introduction-section {
+    opacity: 0;
+    transform: translate3d(0, 30px, 0);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    will-change: opacity, transform;
+    
     p {
-      font-size: 14px;
-      color: #aaa6c3; // Secondary text color
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
+      font-size: 18px;
       font-weight: 500;
-      margin: 0;
+      color: rgb(170 166 195);
+      text-align: center;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      margin-top: 0;
+    }
 
-      @media (min-width: 640px) {
-        font-size: 18px;
-      }
+    &.animate-fadeInUp {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
     }
   }
 
-  // Section title
-  .section-title {
-    text-align: center;
-
+  // Title section with gradient
+  .title-section {
+    opacity: 0;
+    transform: translate3d(0, 30px, 0);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    will-change: opacity, transform;
+    
     h2 {
-      color: white;
+      font-size: 3.75rem;
       font-weight: 900;
-      font-size: 30px;
+      background: linear-gradient(90deg, rgb(145, 94, 255), rgb(0, 191, 255));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-align: center;
+      line-height: 1.5;
       margin: 0;
-      line-height: 1.2;
-      height: 90px;
+    }
 
-
-      @media (min-width: 480px) {
-        font-size: 40px;
-      }
-
-      @media (min-width: 640px) {
-        font-size: 50px;
-      }
-
-      @media (min-width: 768px) {
-        font-size: 60px;
-      }
+    &.animate-slideInFromBottom {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
     }
   }
 
@@ -421,4 +416,36 @@
       }
     }
   }
+}
+
+/* Scroll animations */
+@keyframes fadeInUp {
+  0% {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromBottom {
+  0% {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Animation classes */
+.animate-fade-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-slide-bottom {
+  animation: slideInFromBottom 0.7s ease-out forwards;
 }

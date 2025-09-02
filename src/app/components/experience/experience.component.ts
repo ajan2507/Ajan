@@ -97,49 +97,74 @@ export class ExperienceComponent implements OnInit, AfterViewInit {
       return;
     }
 
+    let scrollTimeout: any;
+    let isScrolling = false;
+
+    // Detect when user is scrolling (including programmatic scroll)
+    const handleScroll = () => {
+      isScrolling = true;
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        isScrolling = false;
+      }, 150); // Wait 150ms after scroll stops
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          this.isInView = true;
-          const section = entry.target as HTMLElement;
-          
-          // Add main animation class
-          section.classList.add('animate-in');
-          
-          // Staggered animations for different elements
-          setTimeout(() => {
-            const subtitle = section.querySelector('.section-subtitle');
-            subtitle?.classList.add('animate');
-          }, 100);
-          
-          setTimeout(() => {
-            const title = section.querySelector('.section-title');
-            title?.classList.add('animate');
-          }, 300);
-          
-          setTimeout(() => {
-            const layout = section.querySelector('.experience-layout');
-            layout?.classList.add('animate');
-          }, 500);
-          
-          // Animate experience cards with stagger
-          setTimeout(() => {
-            const cards = section.querySelectorAll('.experience-card');
-            cards.forEach((card, index) => {
+          // Wait until scrolling has stopped before animating
+          const attemptAnimation = () => {
+            if (!isScrolling) {
+              this.isInView = true;
+              
+              // Add animations with staggered delays for intro and title
               setTimeout(() => {
-                card.classList.add('animate');
-              }, index * 100);
-            });
-          }, 700);
+                this.animateElement('.introduction-section', 'animate-fadeInUp');
+              }, 100);
+              
+              setTimeout(() => {
+                this.animateElement('.title-section', 'animate-slideInFromBottom');
+              }, 300);
+              
+              const section = entry.target as HTMLElement;
+              
+              // Add main animation class
+              section.classList.add('animate-in');
+              
+              // Staggered animations for different elements
+              setTimeout(() => {
+                const layout = section.querySelector('.experience-layout');
+                layout?.classList.add('animate');
+              }, 500);
+              
+              // Animate experience cards with stagger
+              setTimeout(() => {
+                const cards = section.querySelectorAll('.experience-card');
+                cards.forEach((card, index) => {
+                  setTimeout(() => {
+                    card.classList.add('animate');
+                  }, index * 100);
+                });
+              }, 700);
+              
+              // Animate details panel
+              setTimeout(() => {
+                const details = section.querySelector('.experience-details');
+                details?.classList.add('animate');
+              }, 900);
+              
+              // Disconnect observer after animation
+              observer.unobserve(entry.target);
+              window.removeEventListener('scroll', handleScroll);
+            } else {
+              // Retry after scroll stops
+              setTimeout(attemptAnimation, 100);
+            }
+          };
           
-          // Animate details panel
-          setTimeout(() => {
-            const details = section.querySelector('.experience-details');
-            details?.classList.add('animate');
-          }, 900);
-          
-          // Disconnect observer after animation
-          observer.unobserve(entry.target);
+          attemptAnimation();
         }
       });
     }, {
@@ -149,6 +174,13 @@ export class ExperienceComponent implements OnInit, AfterViewInit {
 
     if (this.workExperienceSection) {
       observer.observe(this.workExperienceSection.nativeElement);
+    }
+  }
+
+  private animateElement(selector: string, animationClass: string) {
+    const element = this.workExperienceSection.nativeElement.querySelector(selector);
+    if (element) {
+      element.classList.add(animationClass);
     }
   }
 }

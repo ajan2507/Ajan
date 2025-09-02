@@ -2,12 +2,37 @@
 .contact-section {
   background-color: #050816;
   color: white;
-  padding: 120px 0;
+  padding: 64px;
+  padding-bottom: 32px;
   min-height: 100vh;
   position: relative;
+  
+  /* Background image like reference website */
+  background-image: url('/assets/herobg.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  
+  /* Dark overlay to ensure text readability */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(5, 8, 22, 0.85);
+    z-index: 1;
+  }
+  
+  /* Ensure content is above overlay */
+  > * {
+    position: relative;
+    z-index: 2;
+  }
 
   .contact-container {
-    max-width: 1200px;
+    max-width: 80rem;
     margin: 0 auto;
     padding: 0 20px;
   }
@@ -18,16 +43,16 @@
     margin-bottom: 60px;
 
     .section-subtitle {
-      color: #dfd9ff;
-      font-weight: 800;
-      font-size: 14px;
+      color: #AAA6C3;
+      font-weight: 500;
+      font-size: 18px;
       text-transform: uppercase;
-      letter-spacing: 1.75px;
-      margin-bottom: 16px;
-      line-height: 1;
       opacity: 1; // Temporarily visible
       transform: translateY(0); // Temporarily no transform
       transition: all 0.8s ease;
+      letter-spacing: 0.15em;
+      margin: 0;
+      line-height: 1.5;
 
       &.animate-fadeInUp {
         opacity: 1;
@@ -36,13 +61,18 @@
     }
 
     .section-title {
-      font-size: clamp(40px, 8vw, 60px);
-      font-weight: 900;
-      color: white;
       margin: 0;
       opacity: 1; // Temporarily visible
       transform: translateY(0); // Temporarily no transform
       transition: all 0.8s ease 0.2s;
+      font-size: 3.75rem;
+      font-weight: 900;
+      background: linear-gradient(90deg, rgb(145, 94, 255), rgb(0, 191, 255));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-align: center;
+      line-height: 1.5;
 
       &.animate-fadeInUp {
         opacity: 1;
@@ -252,7 +282,7 @@
   // Animation Classes
   &.animate-section {
     .section-subtitle,
-    .section-title {
+    .section-title {      
       &.animate-fadeInUp {
         opacity: 1;
         transform: translateY(0);
