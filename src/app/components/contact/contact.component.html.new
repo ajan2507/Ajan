@@ -19,12 +19,8 @@
               formControlName="name" 
               placeholder="What's your good name?"
               class="form-input"
-              [class.error]="contactForm.get('name')?.invalid && contactForm.get('name')?.touched"
               required
             />
-            <div class="error-message" *ngIf="contactForm.get('name')?.invalid && contactForm.get('name')?.touched">
-              Name is required
-            </div>
           </div>
 
           <!-- Email Field -->
@@ -35,13 +31,8 @@
               formControlName="email" 
               placeholder="What's your web address?"
               class="form-input"
-              [class.error]="contactForm.get('email')?.invalid && contactForm.get('email')?.touched"
               required
             />
-            <div class="error-message" *ngIf="contactForm.get('email')?.invalid && contactForm.get('email')?.touched">
-              <span *ngIf="contactForm.get('email')?.errors?.['required']">Email is required</span>
-              <span *ngIf="contactForm.get('email')?.errors?.['email']">Please enter a valid email</span>
-            </div>
           </div>
 
           <!-- Message Field -->
@@ -51,14 +42,9 @@
               formControlName="message" 
               placeholder="What you want to say?"
               class="form-textarea"
-              [class.error]="contactForm.get('message')?.invalid && contactForm.get('message')?.touched"
               rows="7"
               required>
             </textarea>
-            <div class="error-message" *ngIf="contactForm.get('message')?.invalid && contactForm.get('message')?.touched">
-              <span *ngIf="contactForm.get('message')?.errors?.['required']">Message is required</span>
-              <span *ngIf="contactForm.get('message')?.errors?.['minlength']">Message must be at least 10 characters</span>
-            </div>
           </div>
 
           <!-- Submit Button -->

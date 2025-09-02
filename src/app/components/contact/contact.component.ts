@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { EarthCanvasComponent } from '../earth-canvas/earth-canvas.component';
+import { PlanetCanvasComponent } from '../planet-canvas/planet-canvas.component';
 
 interface SubmitStatus {
   type: 'success' | 'error';
@@ -14,7 +14,7 @@ interface SubmitStatus {
   imports: [
     CommonModule, 
     ReactiveFormsModule,
-    EarthCanvasComponent
+    PlanetCanvasComponent
   ],
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.scss'
@@ -111,6 +111,9 @@ export class ContactComponent implements OnInit, AfterViewInit {
       }
     }
   }
+  get name() { return this.contactForm.get('name'); }
+  get email() { return this.contactForm.get('email'); }
+  get message() { return this.contactForm.get('message'); }
 
   private simulateFormSubmission(): Promise<void> {
     return new Promise((resolve) => {
