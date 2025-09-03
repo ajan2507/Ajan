@@ -168,8 +168,8 @@ export class ExperienceComponent implements OnInit, AfterViewInit {
         }
       });
     }, {
-      threshold: 0.2,
-      rootMargin: '0px 0px -50px 0px'
+      threshold: 0.05, // Much lower threshold - trigger when only 5% is visible
+      rootMargin: '200px 0px -50px 0px' // Trigger 200px before element enters view
     });
 
     if (this.workExperienceSection) {

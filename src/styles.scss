@@ -19,10 +19,17 @@
   color-scheme: dark;
 }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* Account for fixed header */
+}
+
 body {
   background-color: #050816;
   color: white;
   line-height: 1.5;
+  scroll-behavior: smooth;
+  overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
 .hash-span {
@@ -231,4 +238,112 @@ button {
 @media (min-width: 1024px) {
   .lg\:text-\[30px\] { font-size: 30px; }
   .lg\:text-\[80px\] { font-size: 80px; }
+}
+
+/* ===============================================
+   SMOOTH SCROLL & HOVER OPTIMIZATION UTILITIES
+   =============================================== */
+
+/* Enhanced smooth scrolling for all elements */
+html, body {
+  scroll-behavior: smooth !important;
+}
+
+/* Optimize scrolling performance during animations */
+* {
+  /* GPU acceleration for better performance */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  
+  /* Prevent layout shifts during hover */
+  will-change: auto;
+}
+
+/* Smooth scroll optimization for specific elements */
+.smooth-scroll {
+  scroll-behavior: smooth;
+  scroll-snap-type: y proximity;
+}
+
+/* Prevent scroll interference during hover states */
+.hover-optimized {
+  /* Use transform instead of layout properties for smoother animations */
+  transition: transform 0.3s ease, opacity 0.3s ease, filter 0.3s ease;
+  
+  &:hover {
+    /* Avoid triggering layout recalculations */
+    transform: translateY(-2px) scale(1.02);
+  }
+}
+
+/* Section scroll snap points */
+section {
+  scroll-snap-align: start;
+}
+
+/* Smooth scrolling for navigation links */
+a[href^="#"] {
+  scroll-behavior: smooth;
+}
+
+/* Performance optimization for animated elements */
+.animate-element {
+  /* Use GPU layers for animations */
+  transform: translateZ(0);
+  will-change: transform, opacity;
+  
+  /* Smooth transitions */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Card hover effects optimization */
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-8px) translateZ(0);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Button hover optimization */
+.button-hover {
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  
+  &:hover {
+    transform: translateY(-2px) translateZ(0);
+  }
+}
+
+/* Prevent scroll jank during complex animations */
+@media (prefers-reduced-motion: no-preference) {
+  .smooth-animation {
+    /* Optimize for smooth 60fps animations */
+    animation-fill-mode: both;
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+}
+
+/* Respect user preferences for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Fix for touch devices */
+@media (hover: none) {
+  .hover-effect:hover {
+    transform: none;
+  }
+}
+
+/* Intersection Observer performance optimization */
+.io-element {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 500px;
 }

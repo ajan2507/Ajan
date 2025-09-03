@@ -69,9 +69,11 @@
       color: white;
       text-decoration: none;
       transition: all 0.3s ease;
+      will-change: transform; // Optimize for animations
+      transform: translateZ(0); // Force GPU layer
       
       &:hover {
-        transform: translateY(-3px);
+        transform: translateY(-3px) translateZ(0); // Add GPU acceleration
         box-shadow: 0 8px 25px var(--shadow-color);
       }
       
@@ -198,6 +200,8 @@
   opacity: 0;
   visibility: hidden;
   z-index: 1000;
+  will-change: transform; // Optimize for animations
+  transform: translateZ(0); // Force GPU layer
   
   &.visible {
     opacity: 1;
@@ -205,7 +209,7 @@
   }
   
   &:hover {
-    transform: translateY(-3px);
+    transform: translateY(-3px) translateZ(0); // Add GPU acceleration
     box-shadow: 0 8px 25px var(--shadow-color);
   }
   

@@ -1,9 +1,12 @@
-<section id="contact" class="contact-section">
+<section id="contact" class="contact-section" #contactSection>
   <div class="contact-container">
     <!-- Section Header -->
-    <div class="section-header">
-      <p class="section-subtitle">GET IN TOUCH</p>
-      <h2 class="section-title">Contact.</h2>
+    <div class="introduction-section">
+      <p>GET IN TOUCH</p>
+    </div>
+    
+    <div class="title-section">
+      <h2>Contact.</h2>
     </div>
 
     <!-- Main Contact Content - Horizontal Layout -->
@@ -22,7 +25,7 @@
               [class.error]="contactForm.get('name')?.invalid && contactForm.get('name')?.touched"
               required
             />
-            <div class="error-message" *ngIf="contactForm.get('name')?.invalid && contactForm.get('name')?.touched">
+            <div class="error-message" *ngIf="contactForm.get('name')?.invalid && isFormSubmitted">
               Name is required
             </div>
           </div>
@@ -33,12 +36,12 @@
             <input 
               type="email"
               formControlName="email" 
-              placeholder="What's your web address?"
+              placeholder="What's your email address?"
               class="form-input"
               [class.error]="contactForm.get('email')?.invalid && contactForm.get('email')?.touched"
               required
             />
-            <div class="error-message" *ngIf="contactForm.get('email')?.invalid && contactForm.get('email')?.touched">
+            <div class="error-message" *ngIf="contactForm.get('email')?.invalid && isFormSubmitted">
               <span *ngIf="contactForm.get('email')?.errors?.['required']">Email is required</span>
               <span *ngIf="contactForm.get('email')?.errors?.['email']">Please enter a valid email</span>
             </div>
@@ -55,7 +58,7 @@
               rows="7"
               required>
             </textarea>
-            <div class="error-message" *ngIf="contactForm.get('message')?.invalid && contactForm.get('message')?.touched">
+            <div class="error-message" *ngIf="contactForm.get('message')?.invalid && isFormSubmitted">
               <span *ngIf="contactForm.get('message')?.errors?.['required']">Message is required</span>
               <span *ngIf="contactForm.get('message')?.errors?.['minlength']">Message must be at least 10 characters</span>
             </div>
@@ -66,24 +69,32 @@
             <button 
               type="submit" 
               class="submit-btn"
-              [disabled]="contactForm.invalid || isSubmitting"
+              [disabled]="contactForm.invalid || isLoading"
             >
-              {{ isSubmitting ? 'Sending...' : 'Send' }}
+              {{ isLoading ? 'Sending...' : 'Send' }}
             </button>
           </div>
         </form>
-
-        <!-- Form Status -->
-        <div class="form-status" *ngIf="submitStatus">
-          <div class="status-message" [class]="submitStatus.type">
-            <span>{{ submitStatus.message }}</span>
-          </div>
-        </div>
       </div>
 
       <!-- Right Side: 3D Planet Earth -->
       <div class="globe-section">
         <app-planet-canvas></app-planet-canvas>
+      </div>
+    </div>
+
+    <!-- Success Popup Notification -->
+    <div class="success-popup" [class.show]="showSuccessPopup">
+      <div class="popup-content">
+        <div class="popup-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="popup-text">
+          <h4>Message Sent!</h4>
+          <p>Thank you for your message. I'll get back to you soon!</p>
+        </div>
       </div>
     </div>
   </div>

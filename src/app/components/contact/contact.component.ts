@@ -3,11 +3,6 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PlanetCanvasComponent } from '../planet-canvas/planet-canvas.component';
 
-interface SubmitStatus {
-  type: 'success' | 'error';
-  message: string;
-}
-
 @Component({
   selector: 'app-contact',
   standalone: true,
@@ -22,8 +17,9 @@ interface SubmitStatus {
 export class ContactComponent implements OnInit, AfterViewInit {
   @ViewChild('contactSection') contactSection!: ElementRef;
   contactForm!: FormGroup;
-  isSubmitting = false;
-  submitStatus: SubmitStatus | null = null;
+  isFormSubmitted = false;
+  isLoading = false;
+  showSuccessPopup = false;
 
   constructor(
     private fb: FormBuilder,
@@ -49,77 +45,71 @@ export class ContactComponent implements OnInit, AfterViewInit {
       return;
     }
 
+    let hasAnimated = false;
+
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          // Stagger animations
+        if (entry.isIntersecting && !hasAnimated) {
+          hasAnimated = true;
+          
+          // Stagger animations like About component
           setTimeout(() => {
-            entry.target.querySelector('.section-subtitle')?.classList.add('animate-fadeInUp');
-          }, 0);
+            this.animateElement('.introduction-section', 'animate-fadeInUp');
+          }, 100);
           
           setTimeout(() => {
-            entry.target.querySelector('.section-title')?.classList.add('animate-slideInFromBottom');
-          }, 200);
+            this.animateElement('.title-section', 'animate-slideInFromBottom');
+          }, 300);
           
           setTimeout(() => {
-            entry.target.querySelector('.phone-section')?.classList.add('animate-fadeInUp');
-          }, 400);
+            this.animateElement('.form-section', 'animate-slide-left');
+          }, 500);
           
           setTimeout(() => {
-            entry.target.querySelector('.globe-section')?.classList.add('animate-slideInFromLeft');
-          }, 600);
+            this.animateElement('.globe-section', 'animate-slide-right');
+          }, 700);
           
-          setTimeout(() => {
-            entry.target.querySelector('.form-section')?.classList.add('animate-slideInFromRight');
-          }, 800);
+          observer.unobserve(entry.target);
         }
       });
     }, {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
+      threshold: 0.05, // Much lower threshold for earlier trigger
+      rootMargin: '200px 0px -50px 0px' // Trigger 200px before element enters view
     });
 
-    // Observe the contact section
-    const contactElement = document.querySelector('#contact');
-    if (contactElement) {
-      observer.observe(contactElement);
+    if (this.contactSection?.nativeElement) {
+      observer.observe(this.contactSection.nativeElement);
     }
   }
 
-  async onSubmit() {
-    if (this.contactForm.valid) {
-      this.isSubmitting = true;
-      this.submitStatus = null;
+  private animateElement(selector: string, animationClass: string) {
+    const element = this.contactSection.nativeElement.querySelector(selector);
+    if (element) {
+      element.classList.add(animationClass);
+    }
+  }
 
-      try {
-        // Simulate API call
-        await this.simulateFormSubmission();
+  onSubmit(): void {
+    this.isFormSubmitted = true;
+    if (this.contactForm.valid) {
+      this.isLoading = true;
+      
+      // Simulate form submission
+      setTimeout(() => {
+        this.isLoading = false;
+        console.log('Form submitted:', this.contactForm.value);
         
-        this.submitStatus = {
-          type: 'success',
-          message: 'Thank you! Your message has been sent successfully. I\'ll get back to you soon.'
-        };
+        // Show beautiful success popup
+        this.showSuccessPopup = true;
+        
+        // Auto-hide popup after 4 seconds
+        setTimeout(() => {
+          this.showSuccessPopup = false;
+        }, 4000);
         
         this.contactForm.reset();
-      } catch (error) {
-        this.submitStatus = {
-          type: 'error',
-          message: 'Sorry, there was an error sending your message. Please try again later.'
-        };
-      } finally {
-        this.isSubmitting = false;
-      }
-    }
-  }
-  get name() { return this.contactForm.get('name'); }
-  get email() { return this.contactForm.get('email'); }
-  get message() { return this.contactForm.get('message'); }
-
-  private simulateFormSubmission(): Promise<void> {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve();
+        this.isFormSubmitted = false;
       }, 2000);
-    });
+    }
   }
 }

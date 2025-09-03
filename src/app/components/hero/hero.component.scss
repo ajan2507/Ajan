@@ -34,27 +34,57 @@
   }
   
   .hero-container {
-    max-width: 1200px;
+    max-width: 80rem;
     width: 100%;
     
     .hero-content {
       display: flex;
-      flex-direction: column;
-      // height: 100vh;
-      align-items: center;
-      justify-content: center; // Center the content vertically
+      flex-direction: row; // Change to row to align visual element and text side by side
+      align-items: flex-start;
+      justify-content: flex-start;
+      gap: 20px; // Space between visual element and text
+      max-width: 80rem;
+      margin-left: 65px;
+      margin-top: 15px;
       
       @media (max-width: 768px) {
-        text-align: center;
+        gap: 15px;
+      }
+      
+      // Visual element on the left (circle and line)
+      .hero-visual {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 25px; // Align with text baseline
+        
+        .hero-dot {
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          background: #915eff;
+          margin-bottom: -1px;
+        }
+        
+        .hero-line {
+          width: 4px;
+          height: 320px; // Adjust height as needed
+          background: linear-gradient(180deg, #915eff 0%, rgba(145, 94, 255, 0.8) 30%, rgba(145, 94, 255, 0.4) 60%, rgba(145, 94, 255, 0.1) 90%, transparent 100%);
+          
+          @media (max-width: 768px) {
+            height: 250px;
+          }
+        }
       }
       
       .text-content {
-        text-align: center;
+        text-align: left; // Change from center to left
         
         .main-title {
-          font-size: 48px;
+          font-size: 5rem;
           font-weight: 900;
           color: white;
+          margin-top: 1rem;
           margin-bottom: 1rem;
           line-height: 1.2;
           font-family: 'Poppins', sans-serif;
@@ -74,20 +104,37 @@
         }
         
         .subtitle {
-          font-size: 20px;
+          font-size: 1.8rem; // Increase font size to match reference
           font-weight: 500;
-          color: #aaa6c3;
+          color: #ffffff;
           font-family: 'Poppins', sans-serif;
+          margin-bottom: 0rem; // Add margin for spacing
           
           .typing-text {
+            font-weight: 700;
             color: #915eff;
             position: relative;
             
-            &::after {
-              content: '|';
+            .cursor {
               color: #915eff;
               animation: blink 1s infinite;
+              font-weight: 700;
             }
+          }
+        }
+        
+        .welcome-message {
+          font-size: 1.8rem;
+          font-weight: 700;
+          color: #ffffff;
+          font-family: 'Poppins', sans-serif;
+          line-height: 1.6;
+          max-width: 1110px; // Limit width for better readability
+          opacity: 0.9;
+          
+          @media (max-width: 768px) {
+            font-size: 16px;
+            max-width: 100%;
           }
         }
       }

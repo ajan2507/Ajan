@@ -171,8 +171,8 @@ export class SkillsComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       });
     }, {
-      threshold: 0.2,
-      rootMargin: '0px 0px -50px 0px'
+      threshold: 0.05,
+      rootMargin: '200px 0px -50px 0px'
     });
 
     if (this.skillsSection) {

@@ -98,12 +98,14 @@
   text-align: center;
   font-family: 'Poppins', sans-serif;
   box-sizing: border-box;
+  will-change: transform; // Optimize for animations
+  transform: translateZ(0); // Force GPU layer
 }
 
 .social-buttons .social-link:hover {
   background: linear-gradient(90deg, rgb(145, 94, 255), rgb(0, 191, 255));
   color: white;
-  transform: translateY(-2px);
+  transform: translateY(-2px) translateZ(0); // Add GPU acceleration
   box-shadow: 0 4px 15px rgba(145, 94, 255, 0.4);
 }
 

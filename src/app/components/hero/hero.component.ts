@@ -9,6 +9,13 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
     <section class="hero-section">
       <div class="hero-container">
         <div class="hero-content">
+          <!-- Left side visual element -->
+          <div class="hero-visual">
+            <div class="hero-dot"></div>
+            <div class="hero-line"></div>
+          </div>
+          
+          <!-- Text content -->
           <div class="text-content">
             <h1 class="main-title">
               Hi, I'm <span class="name-highlight">Karthick</span> 
@@ -16,7 +23,11 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
             </h1>
             
             <p class="subtitle">
-              I'm a <span class="typing-text">{{ currentRole }}</span>
+              I'm a <span class="typing-text">{{ currentRole }}<span class="cursor">|</span></span>
+            </p>
+            
+            <p class="welcome-message">
+              Welcome to my portfolio, please visit on desktop for an interactive experience!
             </p>
           </div>
         </div>
@@ -26,15 +37,22 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
   styleUrl: './hero.component.scss'
 })
 export class HeroComponent implements OnInit, OnDestroy {
-  currentRole = 'Software Engineer';
+  currentRole = '';
   private roles = [
     'Software Engineer',
     'Full Stack Developer', 
     'Cloud Solutions Architect',
-    'Problem Solver'
+    'Problem Solver',
+    'Systems Administrator'
   ];
   private currentIndex = 0;
-  private typingInterval?: any;
+  private typingTimeout?: any;
+  private deletingTimeout?: any;
+  private isDeleting = false;
+  private currentText = '';
+  private typingSpeed = 100;
+  private deletingSpeed = 50;
+  private pauseTime = 2000;
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
@@ -46,15 +64,49 @@ export class HeroComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (isPlatformBrowser(this.platformId) && this.typingInterval) {
-      clearInterval(this.typingInterval);
+    if (isPlatformBrowser(this.platformId)) {
+      if (this.typingTimeout) {
+        clearTimeout(this.typingTimeout);
+      }
+      if (this.deletingTimeout) {
+        clearTimeout(this.deletingTimeout);
+      }
     }
   }
 
   private startTypingAnimation() {
-    this.typingInterval = setInterval(() => {
-      this.currentIndex = (this.currentIndex + 1) % this.roles.length;
-      this.currentRole = this.roles[this.currentIndex];
-    }, 3000);
+    this.typeText();
+  }
+
+  private typeText() {
+    const currentWord = this.roles[this.currentIndex];
+    
+    if (this.isDeleting) {
+      // Deleting characters
+      this.currentText = currentWord.substring(0, this.currentText.length - 1);
+      this.currentRole = this.currentText;
+      
+      if (this.currentText === '') {
+        this.isDeleting = false;
+        this.currentIndex = (this.currentIndex + 1) % this.roles.length;
+        this.typingTimeout = setTimeout(() => this.typeText(), 100);
+      } else {
+        this.deletingTimeout = setTimeout(() => this.typeText(), this.deletingSpeed);
+      }
+    } else {
+      // Typing characters
+      this.currentText = currentWord.substring(0, this.currentText.length + 1);
+      this.currentRole = this.currentText;
+      
+      if (this.currentText === currentWord) {
+        // Word is complete, pause then start deleting
+        this.typingTimeout = setTimeout(() => {
+          this.isDeleting = true;
+          this.typeText();
+        }, this.pauseTime);
+      } else {
+        this.typingTimeout = setTimeout(() => this.typeText(), this.typingSpeed);
+      }
+    }
   }
 }

@@ -99,9 +99,11 @@
     transition: all 0.3s ease;
     background: #151030; // bg-primary color
     border: 1px solid rgba(255, 255, 255, 0.1);
+    will-change: transform; // Optimize for animations
+    transform: translateZ(0); // Force GPU layer
 
     &:hover {
-      transform: translateY(-2px);
+      transform: translateY(-2px) translateZ(0); // Add GPU acceleration
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
       animation: cardPulse 0.6s ease-out;
     }
