@@ -135,21 +135,11 @@ export class ProjectsComponent implements OnInit, OnDestroy, AfterViewInit {
   private setupIntersectionObserver() {
     // Skip IntersectionObserver setup in SSR environment
     if (!isPlatformBrowser(this.platformId)) {
-      // Just trigger animations immediately for SSR
-      this.triggerHeaderAnimations();
-      setTimeout(() => {
-        this.triggerAnimations();
-      }, 600);
       return;
     }
     
     // Additional check for IntersectionObserver availability
     if (typeof IntersectionObserver === 'undefined') {
-      // Fallback for environments without IntersectionObserver
-      this.triggerHeaderAnimations();
-      setTimeout(() => {
-        this.triggerAnimations();
-      }, 600);
       return;
     }
     
@@ -181,6 +171,11 @@ export class ProjectsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private triggerHeaderAnimations() {
+    // Skip animations in SSR environment
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+    
     // Animate subtitle first
     setTimeout(() => {
       const subtitle = document.querySelector('.projects-section .section-subtitle');
@@ -195,6 +190,11 @@ export class ProjectsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private triggerAnimations() {
+    // Skip animations in SSR environment
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+    
     const projectCards = document.querySelectorAll('.project-card');
     projectCards.forEach((card, index) => {
       setTimeout(() => {
