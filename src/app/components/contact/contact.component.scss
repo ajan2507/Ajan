@@ -180,6 +180,10 @@
       transform: translateX(0);
     }
 
+    @media (max-width: 768px) {
+      width: -webkit-fill-available;
+    }
+
     @media (max-width: 1200px) {
       flex: 1;
       order: 2;
@@ -475,6 +479,7 @@
 
   @media (max-width: 480px) {
     padding: 60px 0;
+    padding-bottom: 0px;
 
     .contact-form {
       gap: 24px;

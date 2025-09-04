@@ -34,7 +34,7 @@ export class ProjectsComponent implements OnInit, OnDestroy, AfterViewInit {
         { name: "Tailwind CSS", color: "text-pink-400" },
         { name: "Next.js", color: "text-purple-400" }
       ],
-      image: "https://via.placeholder.com/360x230/1d1836/ffffff?text=FinancialFlow",
+      image: "assets/AurGee_project.jpg",
       source_code_link: "https://github.com/sunnypatell/FinancialFlow",
       live_project_link: "https://financial-flow.vercel.app/"
     },
@@ -47,7 +47,7 @@ export class ProjectsComponent implements OnInit, OnDestroy, AfterViewInit {
         { name: "AWS Lambda/Beanstalk", color: "text-orange-400" },
         { name: "Proxy/API", color: "text-purple-400" }
       ],
-      image: "https://via.placeholder.com/360x230/1d1836/ffffff?text=Sunnify",
+      image: "assets/AurGee_project.jpg",
       source_code_link: "https://github.com/sunnypatell/Sunnify",
       live_project_link: "https://sunnify-spotify-downloader.vercel.app/"
     },
@@ -60,7 +60,7 @@ export class ProjectsComponent implements OnInit, OnDestroy, AfterViewInit {
         { name: "Next.js", color: "text-pink-400" },
         { name: "Authentication-Body", color: "text-orange-400" }
       ],
-      image: "https://via.placeholder.com/360x230/1d1836/ffffff?text=API+Tester",
+      image: "assets/AurGee_project.jpg",
       source_code_link: "https://github.com/sunnypatell/enterprise-api-request-tester",
       live_project_link: "https://enterprise-api-request-tester.vercel.app/"
     },
@@ -73,7 +73,7 @@ export class ProjectsComponent implements OnInit, OnDestroy, AfterViewInit {
         { name: "maven", color: "text-green-400" },
         { name: "arcadegame", color: "text-purple-400" }
       ],
-      image: "https://via.placeholder.com/360x230/1d1836/ffffff?text=KnifeThrow",
+      image: "assets/AurGee_project.jpg",
       source_code_link: "https://github.com/sunnypatell/KnifeThrow",
       live_project_link: "https://github.com/sunnypatell/KnifeThrow"
     },
@@ -88,7 +88,7 @@ export class ProjectsComponent implements OnInit, OnDestroy, AfterViewInit {
         { name: "matplotlib", color: "text-purple-400" },
         { name: "numpy", color: "text-yellow-400" }
       ],
-      image: "https://via.placeholder.com/360x230/1d1836/ffffff?text=COVID+Analysis",
+      image: "assets/AurGee_project.jpg",
       source_code_link: "https://github.com/sunnypatell/COVID-19-GTA-Cases-Data-Analysis",
       live_project_link: "https://drive.google.com/drive/folders/1cTbp-6-flypV-kj3-q606UwwWEralu11"
     },
@@ -101,7 +101,7 @@ export class ProjectsComponent implements OnInit, OnDestroy, AfterViewInit {
         { name: "encryption/decryption", color: "text-green-400" },
         { name: "data-algorithms", color: "text-purple-400" }
       ],
-      image: "https://via.placeholder.com/360x230/1d1836/ffffff?text=Password+Gen",
+      image: "assets/AurGee_project.jpg",
       source_code_link: "https://github.com/sunnypatell/SecurePasswordGenerator",
       live_project_link: "https://github.com/sunnypatell/SecurePasswordGenerator"
     }

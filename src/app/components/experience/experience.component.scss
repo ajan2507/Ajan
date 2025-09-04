@@ -43,14 +43,14 @@
     will-change: opacity, transform;
     
     h2 {
-      font-size: 3.75rem;
+      font-size: 2.8rem;
       font-weight: 900;
       background: linear-gradient(90deg, rgb(145, 94, 255), rgb(0, 191, 255));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       text-align: center;
-      line-height: 1.5;
+      line-height: 1.1;
       margin: 0;
     }
 
@@ -412,19 +412,6 @@
 }
 
 @media (max-width: 480px) {
-  .introduction-section {    
-    p {
-      font-size: 14px;
-    }
-  }
-
-  // Title section with gradient
-  .title-section {
-    
-    h2 {
-      font-size: 2rem;
-    }
-  }
   .experience-section {
     padding: 3rem 0;
 
@@ -432,8 +419,12 @@
       padding: 0 1rem;
     }
 
-    .section-title h2 {
-      font-size: 24px;
+    .introduction-section p {
+      font-size: 16px;
+    }
+
+    .title-section h2 {
+      font-size: 2.8rem;
     }
 
     .experience-layout.mt-20 {
