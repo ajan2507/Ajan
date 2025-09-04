@@ -6,14 +6,9 @@
   padding-bottom: 32px;
   min-height: 100vh;
   position: relative;
-  
-  /* Background image like reference website */
-  background-image: url('/assets/herobg.png');
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  
-  /* Dark overlay to ensure text readability */
+  overflow: hidden; // For animated stars
+
+  /* Improved star particles background - inspired by Sunny Patel's effect */
   &::before {
     content: '';
     position: absolute;
@@ -22,10 +17,75 @@
     right: 0;
     bottom: 0;
     background: rgba(5, 8, 22, 0.85);
-    z-index: 1;
+    background-image: 
+      radial-gradient(2px 2px at 23% 67%, rgba(255,255,255,1.0), transparent),
+      radial-gradient(1px 1px at 89% 23%, rgba(255,255,255,0.8), transparent),
+      radial-gradient(3px 3px at 45% 78%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 67% 45%, rgba(255,255,255,1.0), transparent),
+      radial-gradient(2px 2px at 12% 34%, rgba(255,255,255,0.9), transparent),
+      radial-gradient(1px 1px at 78% 15%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(2px 2px at 34% 89%, rgba(255,255,255,0.8), transparent),
+      radial-gradient(1px 1px at 91% 56%, rgba(255,255,255,1.0), transparent),
+      radial-gradient(3px 3px at 15% 45%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1px 1px at 56% 12%, rgba(255,255,255,0.9), transparent);
+    background-repeat: repeat;
+    background-size: 400px 300px, 600px 400px, 800px 500px;
+    animation: floatParticles1 120s linear infinite;
+    z-index: 0;
   }
-  
-  /* Ensure content is above overlay */
+
+  /* Secondary particle layer */
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+      radial-gradient(1px 1px at 78% 12%, rgba(255,255,255,1.0), transparent),
+      radial-gradient(2px 2px at 34% 89%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(1px 1px at 56% 34%, rgba(255,255,255,1.0), transparent),
+      radial-gradient(3px 3px at 90% 67%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1px 1px at 25% 78%, rgba(255,255,255,0.9), transparent),
+      radial-gradient(2px 2px at 67% 23%, rgba(255,255,255,0.8), transparent),
+      radial-gradient(1px 1px at 12% 45%, rgba(255,255,255,1.0), transparent),
+      radial-gradient(2px 2px at 89% 34%, rgba(255,255,255,0.6), transparent);
+    background-repeat: repeat;
+    background-size: 500px 350px, 700px 450px;
+    animation: floatParticles2 100s linear infinite reverse;
+    opacity: 0.8;
+    z-index: 0;
+  }
+
+  /* Third floating particle layer */
+  .contact-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+      radial-gradient(1px 1px at 15% 85%, rgba(255,255,255,0.8), transparent),
+      radial-gradient(2px 2px at 85% 15%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 50% 50%, rgba(255,255,255,1.0), transparent),
+      radial-gradient(3px 3px at 25% 25%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1px 1px at 75% 75%, rgba(255,255,255,0.9), transparent),
+      radial-gradient(2px 2px at 35% 67%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(1px 1px at 82% 45%, rgba(255,255,255,1.0), transparent),
+      radial-gradient(2px 2px at 18% 32%, rgba(255,255,255,0.8), transparent),
+      radial-gradient(1px 1px at 67% 18%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(3px 3px at 45% 82%, rgba(255,255,255,1.0), transparent);
+    background-repeat: repeat;
+    background-size: 600px 400px, 900px 600px;
+    animation: floatParticles3 150s ease-in-out infinite;
+    opacity: 0.5;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* Ensure content is above overlay and stars */
   > * {
     position: relative;
     z-index: 2;
@@ -86,41 +146,84 @@
     }
   }
 
-  // Main Contact Content
+  // Main Contact Content Grid
   .contact-content {
     display: flex;
-    justify-content: center;
+    gap: 40px;
     margin-top: 40px;
     align-items: flex-start;
 
+    @media (max-width: 1200px) {
+      flex-direction: column-reverse;
+      gap: 30px;
+    }
+
     @media (max-width: 968px) {
-      margin-top: 30px;
+      gap: 40px;
     }
   }
 
-  // Form Section - Full Width
+  // Form Section - LEFT SIDE (Box container like reference)
   .form-section {
-    flex: 1;
-    max-width: 800px; // Reasonable max width for readability
-    width: 100%;
+    flex: 0.75;
+
+
     background-color: #100d25;
-    padding: 40px;
+    padding: 32px;
     border-radius: 16px;
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateX(-50px);
     transition: all 0.8s ease;
 
     &.animate-slide-left {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateX(0);
     }
 
-    @media (max-width: 768px) {
-      padding: 32px;
+    @media (max-width: 1200px) {
+      flex: 1;
+      order: 2;
     }
 
     @media (max-width: 480px) {
       padding: 24px;
+    }
+  }
+
+  // Globe Section - RIGHT SIDE
+  .globe-section {
+    flex: 1;
+    height: 650px; // Increased from 550px to accommodate larger planet
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    opacity: 0;
+    transform: translateX(50px);
+    transition: all 0.8s ease;
+
+    &.animate-slide-right {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    // Ensure planet canvas fills the globe section
+    app-planet-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    @media (max-width: 1200px) {
+      display: none; // Hide planet on tablet and mobile
+    }
+
+    @media (max-width: 768px) {
+      display: none; // Hide planet on mobile
+    }
+
+    @media (max-width: 480px) {
+      display: none; // Hide planet on small mobile
     }
   }
 
@@ -130,20 +233,20 @@
     flex-direction: column;
     gap: 32px;
 
-    // Create a two-column layout for name and email on larger screens
-    .form-row {
-      display: flex;
-      gap: 20px;
-      
-      @media (max-width: 768px) {
-        flex-direction: column;
-        gap: 24px;
-      }
-      
-      .form-group {
-        flex: 1;
-      }
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     .form-group {
       display: flex;
@@ -167,7 +270,7 @@
         font-family: inherit;
         font-weight: 500;
         transition: all 0.3s ease;
-        
+
         &::placeholder {
           color: #aaa6c3;
         }
@@ -248,7 +351,12 @@
 
     .form-section.animate-slideInFromLeft {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateX(0);
+    }
+
+    .globe-section.animate-slideInFromRight {
+      opacity: 1;
+      transform: translateX(0);
     }
   }
 
@@ -344,9 +452,21 @@
       margin-bottom: 20px;
 
       p {
-        font-size: 14px;
+        font-size: 16px;
+
+
+
+
+
+
       }
     }
+    .title-section {
+    text-align: center;
+    h2 {
+      font-size: 2.4rem;
+    }
+  }
 
     .contact-content {
       margin-top: 32px;
@@ -368,5 +488,91 @@
         }
       }
     }
+  }
+}
+
+// Floating particle animations inspired by Sunny Patel's portfolio
+@keyframes floatParticles1 {
+  0% {
+    transform: translateX(0) translateY(0) scale(1);
+    opacity: 0.7;
+  }
+  25% {
+    transform: translateX(-100px) translateY(-50px) scale(1.1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translateX(-200px) translateY(30px) scale(0.9);
+    opacity: 0.6;
+  }
+  75% {
+    transform: translateX(-300px) translateY(-20px) scale(1.05);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(-400px) translateY(0) scale(1);
+    opacity: 0.7;
+  }
+}
+
+@keyframes floatParticles2 {
+  0% {
+    transform: translateX(0) translateY(0) rotate(0deg);
+    opacity: 0.5;
+  }
+  20% {
+    transform: translateX(120px) translateY(-40px) rotate(72deg);
+    opacity: 0.8;
+  }
+  40% {
+    transform: translateX(240px) translateY(60px) rotate(144deg);
+    opacity: 0.4;
+  }
+  60% {
+    transform: translateX(360px) translateY(-30px) rotate(216deg);
+    opacity: 0.9;
+  }
+  80% {
+    transform: translateX(480px) translateY(20px) rotate(288deg);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateX(600px) translateY(0) rotate(360deg);
+    opacity: 0.5;
+  }
+}
+
+@keyframes floatParticles3 {
+  0% {
+    transform: translateY(0) scale(1) rotate(0deg);
+    opacity: 0.4;
+  }
+  15% {
+    transform: translateY(-30px) scale(1.2) rotate(54deg);
+    opacity: 0.7;
+  }
+  30% {
+    transform: translateY(20px) scale(0.8) rotate(108deg);
+    opacity: 0.3;
+  }
+  45% {
+    transform: translateY(-50px) scale(1.1) rotate(162deg);
+    opacity: 0.8;
+  }
+  60% {
+    transform: translateY(40px) scale(0.9) rotate(216deg);
+    opacity: 0.5;
+  }
+  75% {
+    transform: translateY(-20px) scale(1.15) rotate(270deg);
+    opacity: 0.9;
+  }
+  90% {
+    transform: translateY(10px) scale(0.85) rotate(324deg);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(0) scale(1) rotate(360deg);
+    opacity: 0.4;
   }
 }

@@ -114,62 +114,53 @@ export class ExperienceComponent implements OnInit, AfterViewInit {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          // Wait until scrolling has stopped before animating
-          const attemptAnimation = () => {
-            if (!isScrolling) {
-              this.isInView = true;
-              
-              // Add animations with staggered delays for intro and title
-              setTimeout(() => {
-                this.animateElement('.introduction-section', 'animate-fadeInUp');
-              }, 100);
-              
-              setTimeout(() => {
-                this.animateElement('.title-section', 'animate-slideInFromBottom');
-              }, 300);
-              
-              const section = entry.target as HTMLElement;
-              
-              // Add main animation class
-              section.classList.add('animate-in');
-              
-              // Staggered animations for different elements
-              setTimeout(() => {
-                const layout = section.querySelector('.experience-layout');
-                layout?.classList.add('animate');
-              }, 500);
-              
-              // Animate experience cards with stagger
-              setTimeout(() => {
-                const cards = section.querySelectorAll('.experience-card');
-                cards.forEach((card, index) => {
-                  setTimeout(() => {
-                    card.classList.add('animate');
-                  }, index * 100);
-                });
-              }, 700);
-              
-              // Animate details panel
-              setTimeout(() => {
-                const details = section.querySelector('.experience-details');
-                details?.classList.add('animate');
-              }, 900);
-              
-              // Disconnect observer after animation
-              observer.unobserve(entry.target);
-              window.removeEventListener('scroll', handleScroll);
-            } else {
-              // Retry after scroll stops
-              setTimeout(attemptAnimation, 100);
-            }
-          };
+          // Trigger animations immediately when element comes into view
+          this.isInView = true;
           
-          attemptAnimation();
+          // Add animations with staggered delays for intro and title (with initial delay)
+          setTimeout(() => {
+            this.animateElement('.introduction-section', 'animate-fadeInUp');
+          }, 200); // Reduced delay for faster response
+          
+          setTimeout(() => {
+            this.animateElement('.title-section', 'animate-slideInFromBottom');
+          }, 500); // Reduced delay while maintaining stagger
+          
+          const section = entry.target as HTMLElement;
+          
+          // Add main animation class
+          section.classList.add('animate-in');
+          
+          // Staggered animations for different elements
+          setTimeout(() => {
+            const layout = section.querySelector('.experience-layout');
+            layout?.classList.add('animate');
+          }, 700);
+          
+          // Animate experience cards with stagger
+          setTimeout(() => {
+            const cards = section.querySelectorAll('.experience-card');
+            cards.forEach((card, index) => {
+              setTimeout(() => {
+                card.classList.add('animate');
+              }, index * 100);
+            });
+          }, 900);
+          
+          // Animate details panel
+          setTimeout(() => {
+            const details = section.querySelector('.experience-details');
+            details?.classList.add('animate');
+          }, 1100);
+          
+          // Disconnect observer after animation
+          observer.unobserve(entry.target);
+          window.removeEventListener('scroll', handleScroll);
         }
       });
     }, {
-      threshold: 0.05, // Much lower threshold - trigger when only 5% is visible
-      rootMargin: '200px 0px -50px 0px' // Trigger 200px before element enters view
+      threshold: 0.1, // Trigger when 10% is visible
+      rootMargin: '100px 0px -20px 0px' // Trigger 100px before element enters view
     });
 
     if (this.workExperienceSection) {

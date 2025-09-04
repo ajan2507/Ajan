@@ -2,12 +2,14 @@
   <div class="container">
     
     <!-- Introduction section -->
-    <div class="introduction-section">
+    <div class="introduction-section" 
+         [class.animate-fadeInUp]="isInView">
       <p>MY PROFESSIONAL JOURNEY</p>
     </div>
 
     <!-- Title section -->
-    <div class="title-section">
+    <div class="title-section" 
+         [class.animate-slideInFromBottom]="isInView">
       <h2>Work Experience.</h2>
     </div>
 
