@@ -86,83 +86,41 @@
     }
   }
 
-  // Main Contact Content Grid
+  // Main Contact Content
   .contact-content {
     display: flex;
-    gap: 40px;
+    justify-content: center;
     margin-top: 40px;
     align-items: flex-start;
 
-    @media (max-width: 1200px) {
-      flex-direction: column-reverse;
-      gap: 30px;
-    }
-
     @media (max-width: 968px) {
-      gap: 40px;
+      margin-top: 30px;
     }
   }
 
-  // Form Section - LEFT SIDE (Box container like reference)
+  // Form Section - Full Width
   .form-section {
-    flex: 0.75;
+    flex: 1;
+    max-width: 800px; // Reasonable max width for readability
+    width: 100%;
     background-color: #100d25;
-    padding: 32px;
+    padding: 40px;
     border-radius: 16px;
     opacity: 0;
-    transform: translateX(-50px);
+    transform: translateY(30px);
     transition: all 0.8s ease;
 
     &.animate-slide-left {
       opacity: 1;
-      transform: translateX(0);
+      transform: translateY(0);
     }
 
-    @media (max-width: 1200px) {
-      flex: 1;
-      order: 2;
+    @media (max-width: 768px) {
+      padding: 32px;
     }
 
     @media (max-width: 480px) {
       padding: 24px;
-    }
-  }
-
-  // Globe Section - RIGHT SIDE
-  .globe-section {
-    flex: 1;
-    height: 650px; // Increased from 550px to accommodate larger planet
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    opacity: 0;
-    transform: translateX(50px);
-    transition: all 0.8s ease;
-
-    &.animate-slide-right {
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    // Ensure planet canvas fills the globe section
-    app-planet-canvas {
-      width: 100%;
-      height: 100%;
-      display: block;
-    }
-
-    @media (max-width: 1200px) {
-      order: 1;
-      height: 450px; // Increased from 350px
-    }
-
-    @media (max-width: 768px) {
-      height: 400px; // Increased from 350px
-    }
-
-    @media (max-width: 480px) {
-      height: 350px; // Increased from 300px
     }
   }
 
@@ -171,6 +129,21 @@
     display: flex;
     flex-direction: column;
     gap: 32px;
+
+    // Create a two-column layout for name and email on larger screens
+    .form-row {
+      display: flex;
+      gap: 20px;
+      
+      @media (max-width: 768px) {
+        flex-direction: column;
+        gap: 24px;
+      }
+      
+      .form-group {
+        flex: 1;
+      }
+    }
 
     .form-group {
       display: flex;
@@ -275,12 +248,7 @@
 
     .form-section.animate-slideInFromLeft {
       opacity: 1;
-      transform: translateX(0);
-    }
-
-    .globe-section.animate-slideInFromRight {
-      opacity: 1;
-      transform: translateX(0);
+      transform: translateY(0);
     }
   }
 
@@ -376,7 +344,13 @@
       margin-bottom: 20px;
 
       p {
-        font-size: 14px;
+        font-size: 16px;
+      }
+    }
+    
+    .title-section {
+      h2 {
+        font-size: 2.4rem;
       }
     }
 

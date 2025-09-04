@@ -8,12 +8,23 @@
   align-items: center;
   justify-content: center;
   padding: 2rem;
+  // min-height: 100vh; // Ensure full height on all devices
   
   /* Background image like reference website */
   background-image: url('/assets/herobg.png');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+  
+  @media (max-width: 768px) {
+    padding: 1rem;
+    // min-height: 90vh; // Slightly reduced for mobile
+  }
+  
+  @media (max-width: 480px) {
+    padding: 0.5rem;
+    // min-height: 85vh;
+  }
   
   /* Dark overlay to ensure text readability */
   &::before {
@@ -37,48 +48,63 @@
     max-width: 80rem;
     width: 100%;
     
-    .hero-content {
-      display: flex;
-      flex-direction: row; // Change to row to align visual element and text side by side
-      align-items: flex-start;
-      justify-content: flex-start;
-      gap: 20px; // Space between visual element and text
-      max-width: 80rem;
-      margin-left: 65px;
-      margin-top: 15px;
-      
-      @media (max-width: 768px) {
-        gap: 15px;
-      }
-      
-      // Visual element on the left (circle and line)
-      .hero-visual {
+      .hero-content {
         display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-top: 25px; // Align with text baseline
+        flex-direction: row; // Change to row to align visual element and text side by side
+        align-items: flex-start;
+        justify-content: flex-start;
+        gap: 20px; // Space between visual element and text
+        max-width: 80rem;
+        margin-left: 65px;
+        margin-top: 15px;
         
-        .hero-dot {
-          width: 20px;
-          height: 20px;
-          border-radius: 50%;
-          background: #915eff;
-          margin-bottom: -1px;
+        @media (max-width: 768px) {
+          flex-direction: column;
+          margin-left: 0; // Remove margin-left for mobile
+          margin-top: 10px;
+          gap: 15px;
+          padding: 0 1rem; // Add horizontal padding for mobile
         }
         
-        .hero-line {
-          width: 4px;
-          height: 320px; // Adjust height as needed
-          background: linear-gradient(180deg, #915eff 0%, rgba(145, 94, 255, 0.8) 30%, rgba(145, 94, 255, 0.4) 60%, rgba(145, 94, 255, 0.1) 90%, transparent 100%);
+        @media (max-width: 480px) {
+          padding: 0 0.5rem; // Smaller padding for very small screens
+        }              // Visual element on the left (circle and line)
+        .hero-visual {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin-top: 25px; // Align with text baseline
           
           @media (max-width: 768px) {
-            height: 250px;
+            display: none; // Hide visual element on mobile for cleaner look
+          }
+          
+          .hero-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #915eff;
+            margin-bottom: -1px;
+          }
+          
+          .hero-line {
+            width: 4px;
+            height: 320px; // Adjust height as needed
+            background: linear-gradient(180deg, #915eff 0%, rgba(145, 94, 255, 0.8) 30%, rgba(145, 94, 255, 0.4) 60%, rgba(145, 94, 255, 0.1) 90%, transparent 100%);
+            
+            @media (max-width: 768px) {
+              height: 250px;
+            }
           }
         }
-      }
       
       .text-content {
         text-align: left; // Change from center to left
+        flex: 1; // Take remaining space
+        
+        @media (max-width: 768px) {
+          text-align: center; // Center text on mobile
+        }
         
         .main-title {
           font-size: 5rem;
@@ -99,7 +125,13 @@
           }
           
           @media (max-width: 768px) {
-            font-size: 36px;
+            font-size: 3rem;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+          }
+          
+          @media (max-width: 480px) {
+            font-size: 2.5rem;
           }
         }
         
@@ -109,6 +141,14 @@
           color: #ffffff;
           font-family: 'Poppins', sans-serif;
           margin-bottom: 0rem; // Add margin for spacing
+          
+          @media (max-width: 768px) {
+            font-size: 1.4rem;
+          }
+          
+          @media (max-width: 480px) {
+            font-size: 1.2rem;
+          }
           
           .typing-text {
             font-weight: 700;
@@ -133,8 +173,13 @@
           opacity: 0.9;
           
           @media (max-width: 768px) {
-            font-size: 16px;
+            font-size: 1.1rem;
             max-width: 100%;
+            margin-top: 1rem;
+          }
+          
+          @media (max-width: 480px) {
+            font-size: 1rem;
           }
         }
       }
@@ -142,11 +187,11 @@
   }
 }
 
-/* Animations */
+/* Animations - Optimized for performance */
 @keyframes wave {
-  0% { transform: rotate(0deg); }
-  50% { transform: rotate(20deg); }
-  100% { transform: rotate(0deg); }
+  0% { transform: rotate(0deg) translate3d(0,0,0); }
+  50% { transform: rotate(20deg) translate3d(0,0,0); }
+  100% { transform: rotate(0deg) translate3d(0,0,0); }
 }
 
 @keyframes blink {
@@ -155,6 +200,20 @@
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-20px); }
+  0%, 100% { transform: translateY(0px) translate3d(0,0,0); }
+  50% { transform: translateY(-20px) translate3d(0,0,0); }
+}
+
+/* Performance optimizations */
+.wave-emoji {
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.cursor {
+  will-change: opacity;
+}
+
+.typing-text {
+  will-change: contents;
 }

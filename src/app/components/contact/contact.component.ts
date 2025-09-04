@@ -1,15 +1,13 @@
 import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PlanetCanvasComponent } from '../planet-canvas/planet-canvas.component';
 
 @Component({
   selector: 'app-contact',
   standalone: true,
   imports: [
     CommonModule, 
-    ReactiveFormsModule,
-    PlanetCanvasComponent
+    ReactiveFormsModule
   ],
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.scss'
@@ -64,10 +62,6 @@ export class ContactComponent implements OnInit, AfterViewInit {
           setTimeout(() => {
             this.animateElement('.form-section', 'animate-slide-left');
           }, 500);
-          
-          setTimeout(() => {
-            this.animateElement('.globe-section', 'animate-slide-right');
-          }, 700);
           
           observer.unobserve(entry.target);
         }

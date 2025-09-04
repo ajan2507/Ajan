@@ -25,7 +25,7 @@
   will-change: opacity, transform;
   
   p {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 500;
     color: #aaa6c3;
     text-align: center;
@@ -254,7 +254,7 @@
 
 .education-institution {
   color: #aaa6c3;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
   margin: 0;
   font-family: 'Poppins', sans-serif;
@@ -267,7 +267,7 @@
   
   li {
     color: #fff;
-    font-size: 14px;
+    font-size: 16px;
     padding-left: 4px;
     letter-spacing: 0.05em;
     line-height: 1.6;
@@ -279,7 +279,7 @@
 /* Timeline Element Date */
 .vertical-timeline-element-date {
   color: #aaa6c3;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
   font-family: 'Poppins', sans-serif;
   letter-spacing: 0.05em;
@@ -451,8 +451,16 @@
     }
     
     .education-institution {
-      font-size: 14px;
+      font-size: 17px;
     }
+    
+    .education-details li {
+      font-size: 17px;
+    }
+  }
+  
+  .vertical-timeline-element-date {
+    font-size: 17px;
   }
 }
 
@@ -467,7 +475,7 @@
   }
 
   .title-section h2 {
-    font-size: 2rem;
+    font-size: 2.4rem;
   }
 
   .vertical-timeline {
@@ -486,7 +494,7 @@
       
       .vertical-timeline-element-date {
         margin-left: 60px;
-        font-size: 12px;
+        font-size: 17px;
       }
     }
   }
@@ -503,6 +511,14 @@
     
     .education-title {
       font-size: 18px;
+    }
+    
+    .education-institution {
+      font-size: 17px;
+    }
+    
+    .education-details li {
+      font-size: 17px;
     }
   }
 }

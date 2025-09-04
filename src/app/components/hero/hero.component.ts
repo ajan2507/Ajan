@@ -50,9 +50,9 @@ export class HeroComponent implements OnInit, OnDestroy {
   private deletingTimeout?: any;
   private isDeleting = false;
   private currentText = '';
-  private typingSpeed = 100;
-  private deletingSpeed = 50;
-  private pauseTime = 2000;
+  private typingSpeed = 80; // Reduced for better performance
+  private deletingSpeed = 40; // Reduced for better performance
+  private pauseTime = 1500; // Reduced pause time
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
@@ -89,7 +89,7 @@ export class HeroComponent implements OnInit, OnDestroy {
       if (this.currentText === '') {
         this.isDeleting = false;
         this.currentIndex = (this.currentIndex + 1) % this.roles.length;
-        this.typingTimeout = setTimeout(() => this.typeText(), 100);
+        this.typingTimeout = setTimeout(() => this.typeText(), 50); // Shorter delay between words
       } else {
         this.deletingTimeout = setTimeout(() => this.typeText(), this.deletingSpeed);
       }

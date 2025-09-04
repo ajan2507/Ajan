@@ -180,7 +180,7 @@
 
       .project-description {
         color: #aaa6c3;
-        font-size: 14px;
+        font-size: 18px;
         line-height: 1.6;
         margin: 0 0 16px 0;
       }
@@ -193,7 +193,7 @@
         margin-bottom: 16px;
 
         .tech-tag {
-          font-size: 14px;
+          font-size: 16px;
           margin: 0;
           font-weight: 500;
 
@@ -217,7 +217,7 @@
         border-radius: 8px;
         text-decoration: none;
         font-weight: 600;
-        font-size: 14px;
+        font-size: 16px;
         transition: all 0.3s ease;
         display: inline-block;
         cursor: pointer;
@@ -260,7 +260,11 @@
       margin-bottom: 60px;
 
       .section-subtitle {
-        font-size: 12px;
+        font-size: 16px;
+      }
+      
+      .section-title {
+        font-size: 2.4rem;
       }
     }
 
@@ -282,7 +286,15 @@
         }
 
         .project-description {
-          font-size: 13px;
+          font-size: 17px;
+        }
+        
+        .project-tags .tech-tag {
+          font-size: 14px;
+        }
+        
+        .live-project-btn {
+          font-size: 14px;
         }
       }
     }
@@ -302,6 +314,24 @@
 
       .project-image-container {
         height: 180px;
+      }
+      
+      .project-content {
+        .project-name {
+          font-size: 18px;
+        }
+
+        .project-description {
+          font-size: 17px;
+        }
+        
+        .project-tags .tech-tag {
+          font-size: 13px;
+        }
+        
+        .live-project-btn {
+          font-size: 13px;
+        }
       }
     }
   }

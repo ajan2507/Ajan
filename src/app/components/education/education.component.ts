@@ -46,30 +46,30 @@ export class EducationComponent implements OnInit, AfterViewInit {
         if (entry.isIntersecting && !hasAnimated) {
           hasAnimated = true;
           
-          // Simple, clean animation sequence like About component
+          // Much faster, simplified animation sequence
           setTimeout(() => {
             this.animateElement('.introduction-section', 'animate-fadeInUp');
-          }, 100);
+          }, 50);
           
           setTimeout(() => {
             this.animateElement('.title-section', 'animate-slideInFromBottom');
-          }, 300);
+          }, 100);
           
           setTimeout(() => {
             this.animateElement('.vertical-timeline', 'animate-slideInFromLeft');
-          }, 500);
+          }, 150);
           
-          // Animate timeline elements with simpler approach
+          // Animate timeline elements with faster approach
           setTimeout(() => {
             this.animateTimelineElements();
-          }, 700);
+          }, 200);
           
           observer.unobserve(entry.target);
         }
       });
     }, {
-      threshold: 0.05,
-      rootMargin: '200px 0px -50px 0px'
+      threshold: 0.1, // Higher threshold for faster triggering
+      rootMargin: '100px 0px -25px 0px' // Reduced margins for faster response
     });
 
     if (this.educationSection) {
@@ -103,7 +103,7 @@ export class EducationComponent implements OnInit, AfterViewInit {
           content?.classList.add('animate-slide-in-left');
           date?.classList.add('animate-date-slide-right');
         }
-      }, index * 80); // Even faster staggering for ultra-smooth feel
+      }, index * 40); // Much faster staggering for better performance
     });
   }
 }

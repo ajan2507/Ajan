@@ -9,41 +9,44 @@
       <h2>Contact.</h2>
     </div>
 
-    <!-- Main Contact Content - Horizontal Layout -->
+    <!-- Main Contact Content - Full Width Layout -->
     <div class="contact-content">
-      <!-- Left Side: Contact Form in Box -->
+      <!-- Contact Form - Full Width -->
       <div class="form-section">
         <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form">
-          <!-- Name Field -->
-          <div class="form-group">
-            <label class="form-label">Your Name</label>
-            <input 
-              type="text"
-              formControlName="name" 
-              placeholder="What's your good name?"
-              class="form-input"
-              [class.error]="contactForm.get('name')?.invalid && contactForm.get('name')?.touched"
-              required
-            />
-            <div class="error-message" *ngIf="contactForm.get('name')?.invalid && isFormSubmitted">
-              Name is required
+          <!-- Name and Email Row -->
+          <div class="form-row">
+            <!-- Name Field -->
+            <div class="form-group">
+              <label class="form-label">Your Name</label>
+              <input 
+                type="text"
+                formControlName="name" 
+                placeholder="What's your good name?"
+                class="form-input"
+                [class.error]="contactForm.get('name')?.invalid && contactForm.get('name')?.touched"
+                required
+              />
+              <div class="error-message" *ngIf="contactForm.get('name')?.invalid && isFormSubmitted">
+                Name is required
+              </div>
             </div>
-          </div>
 
-          <!-- Email Field -->
-          <div class="form-group">
-            <label class="form-label">Your Email</label>
-            <input 
-              type="email"
-              formControlName="email" 
-              placeholder="What's your email address?"
-              class="form-input"
-              [class.error]="contactForm.get('email')?.invalid && contactForm.get('email')?.touched"
-              required
-            />
-            <div class="error-message" *ngIf="contactForm.get('email')?.invalid && isFormSubmitted">
-              <span *ngIf="contactForm.get('email')?.errors?.['required']">Email is required</span>
-              <span *ngIf="contactForm.get('email')?.errors?.['email']">Please enter a valid email</span>
+            <!-- Email Field -->
+            <div class="form-group">
+              <label class="form-label">Your Email</label>
+              <input 
+                type="email"
+                formControlName="email" 
+                placeholder="What's your email address?"
+                class="form-input"
+                [class.error]="contactForm.get('email')?.invalid && contactForm.get('email')?.touched"
+                required
+              />
+              <div class="error-message" *ngIf="contactForm.get('email')?.invalid && isFormSubmitted">
+                <span *ngIf="contactForm.get('email')?.errors?.['required']">Email is required</span>
+                <span *ngIf="contactForm.get('email')?.errors?.['email']">Please enter a valid email</span>
+              </div>
             </div>
           </div>
 
@@ -75,11 +78,6 @@
             </button>
           </div>
         </form>
-      </div>
-
-      <!-- Right Side: 3D Planet Earth -->
-      <div class="globe-section">
-        <app-planet-canvas></app-planet-canvas>
       </div>
     </div>
 
