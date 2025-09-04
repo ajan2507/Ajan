@@ -76,10 +76,11 @@ export class ExperienceComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     if (isPlatformBrowser(this.platformId)) {
-      // Immediate setup with no delays
-      requestAnimationFrame(() => {
+      this.setupScrollAnimations();
+      // Small delay to ensure DOM is ready
+      setTimeout(() => {
         this.setupScrollAnimations();
-      });
+      }, 100);
     }
   }
 
@@ -96,47 +97,79 @@ export class ExperienceComponent implements OnInit, AfterViewInit {
       return;
     }
 
+    let scrollTimeout: any;
+    let isScrolling = false;
+
+    // Detect when user is scrolling (including programmatic scroll)
+    const handleScroll = () => {
+      isScrolling = true;
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        isScrolling = false;
+      }, 150); // Wait 150ms after scroll stops
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          this.isInView = true;
+          // Wait until scrolling has stopped before animating
+          const attemptAnimation = () => {
+            if (!isScrolling) {
+              this.isInView = true;
+              
+              // Add animations with staggered delays for intro and title
+              setTimeout(() => {
+                this.animateElement('.introduction-section', 'animate-fadeInUp');
+              }, 100);
+              
+              setTimeout(() => {
+                this.animateElement('.title-section', 'animate-slideInFromBottom');
+              }, 300);
+              
+              const section = entry.target as HTMLElement;
+              
+              // Add main animation class
+              section.classList.add('animate-in');
+              
+              // Staggered animations for different elements
+              setTimeout(() => {
+                const layout = section.querySelector('.experience-layout');
+                layout?.classList.add('animate');
+              }, 500);
+              
+              // Animate experience cards with stagger
+              setTimeout(() => {
+                const cards = section.querySelectorAll('.experience-card');
+                cards.forEach((card, index) => {
+                  setTimeout(() => {
+                    card.classList.add('animate');
+                  }, index * 100);
+                });
+              }, 700);
+              
+              // Animate details panel
+              setTimeout(() => {
+                const details = section.querySelector('.experience-details');
+                details?.classList.add('animate');
+              }, 900);
+              
+              // Disconnect observer after animation
+              observer.unobserve(entry.target);
+              window.removeEventListener('scroll', handleScroll);
+            } else {
+              // Retry after scroll stops
+              setTimeout(attemptAnimation, 100);
+            }
+          };
           
-          // Immediate animations with no delays
-          this.animateElement('.introduction-section', 'animate-fadeInUp');
-          this.animateElement('.title-section', 'animate-slideInFromBottom');
-          
-          const section = entry.target as HTMLElement;
-          section.classList.add('animate-in');
-          
-          // Use requestAnimationFrame for immediate DOM updates
-          requestAnimationFrame(() => {
-            const layout = section.querySelector('.experience-layout');
-            layout?.classList.add('animate');
-            
-            // Immediate card animations with minimal stagger
-            const cards = section.querySelectorAll('.experience-card');
-            cards.forEach((card, index) => {
-              requestAnimationFrame(() => {
-                setTimeout(() => {
-                  card.classList.add('animate');
-                }, index * 20); // Minimal 20ms stagger
-              });
-            });
-            
-            // Details panel animation with minimal delay
-            setTimeout(() => {
-              const details = section.querySelector('.experience-details');
-              details?.classList.add('animate');
-            }, 50);
-          });
-          
-          // Disconnect observer after animation
-          observer.unobserve(entry.target);
+          attemptAnimation();
         }
       });
     }, {
-      threshold: 0.15, // Slightly higher threshold for instant triggering
-      rootMargin: '50px 0px 0px 0px' // Reduced margins for immediate response
+      threshold: 0.05, // Much lower threshold - trigger when only 5% is visible
+      rootMargin: '200px 0px -50px 0px' // Trigger 200px before element enters view
     });
 
     if (this.workExperienceSection) {

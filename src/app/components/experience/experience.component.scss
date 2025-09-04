@@ -224,46 +224,44 @@
   .section-title,
   .experience-layout {
     opacity: 0;
-    transform: translate3d(0, 20px, 0);
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: opacity, transform;
+    transform: translateY(20px);
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   // Animation states when visible
   &.animate-in {
     .section-subtitle {
       opacity: 1;
-      transform: translate3d(0, 0, 0);
-      transition-delay: 0s;
+      transform: translateY(0);
+      transition-delay: 0.1s;
     }
 
     .section-title {
       opacity: 1;
-      transform: translate3d(0, 0, 0);
-      transition-delay: 0s;
+      transform: translateY(0);
+      transition-delay: 0.3s;
     }
 
     .experience-layout {
       opacity: 1;
-      transform: translate3d(0, 0, 0);
-      transition-delay: 0s;
+      transform: translateY(0);
+      transition-delay: 0.5s;
     }
 
     .experience-card {
       opacity: 1;
-      transform: translate3d(0, 0, 0);
+      transform: translateX(0);
       
-      // Immediate stagger timing
-      &:nth-child(1) { transition-delay: 0s; }
-      &:nth-child(2) { transition-delay: 0.02s; }
-      &:nth-child(3) { transition-delay: 0.04s; }
-      &:nth-child(4) { transition-delay: 0.06s; }
+      // Stagger animation for multiple cards
+      &:nth-child(1) { transition-delay: 0.7s; }
+      &:nth-child(2) { transition-delay: 0.8s; }
+      &:nth-child(3) { transition-delay: 0.9s; }
+      &:nth-child(4) { transition-delay: 1.0s; }
     }
 
     .experience-details {
       opacity: 1;
-      transform: translate3d(0, 0, 0);
-      transition-delay: 0.05s;
+      transform: translateX(0);
     }
   }
 }
@@ -350,19 +348,20 @@
 
 // Responsive adjustments
 @media (max-width: 767px) {
-  .experience-section {
-    .introduction-section {    
-      p {
-        font-size: 16px;
-      }
+  .introduction-section {    
+    p {
+      font-size: 14px;
     }
+  }
 
-    // Title section with gradient
-    .title-section {
-      h2 {
-        font-size: 2.8rem;
-      }
+  // Title section with gradient
+  .title-section {
+    
+    h2 {
+      font-size: 2rem;
     }
+  }
+  .experience-section {
     .experience-layout {
       .experience-cards-panel {
         order: 2;
@@ -413,21 +412,21 @@
 }
 
 @media (max-width: 480px) {
+  .introduction-section {    
+    p {
+      font-size: 14px;
+    }
+  }
+
+  // Title section with gradient
+  .title-section {
+    
+    h2 {
+      font-size: 2rem;
+    }
+  }
   .experience-section {
     padding: 3rem 0;
-
-    .introduction-section {    
-      p {
-        font-size: 16px;
-      }
-    }
-
-    // Title section with gradient
-    .title-section {
-      h2 {
-        font-size: 2.4rem;
-      }
-    }
 
     .container {
       padding: 0 1rem;
